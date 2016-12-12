@@ -1,6 +1,9 @@
 package com.bolyartech.forge.server.modules.main;
 
-import com.bolyartech.forge.server.endpoint.Endpoint;
+import com.bolyartech.forge.server.HttpMethod;
+import com.bolyartech.forge.server.route.Route;
+import com.bolyartech.forge.server.route.RouteImpl;
+import com.bolyartech.forge.server.misc.TemplateEngineFactory;
 import com.bolyartech.forge.server.module.ForgeModule;
 import com.bolyartech.forge.server.tple.velocity.VelocityTemplateEngineFactory;
 
@@ -13,19 +16,18 @@ public final class MainModule implements ForgeModule {
     private static final int MODULE_VERSION_CODE = 1;
     private static final String MODULE_VERSION_NAME = "1.0.0";
 
-    private final VelocityTemplateEngineFactory mVelocityTemplateEngineFactory;
+    private final TemplateEngineFactory mTpleFactory;
 
 
     public MainModule() {
-        mVelocityTemplateEngineFactory = new VelocityTemplateEngineFactory("templates/modules/main/");
+        mTpleFactory = new VelocityTemplateEngineFactory("templates/modules/main/");
     }
 
 
-    @Override
-    public List<Endpoint> getEndpoints() {
-        List<Endpoint> ret = new ArrayList<>();
+    public List<Route> createRoutes() {
+        List<Route> ret = new ArrayList<>();
 
-        ret.add(new RootEp(mVelocityTemplateEngineFactory.createNew()));
+        ret.add(new RouteImpl(HttpMethod.GET, "/presni", new RootRp(mTpleFactory)));
 
         return ret;
     }
