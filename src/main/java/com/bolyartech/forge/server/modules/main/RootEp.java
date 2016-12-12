@@ -7,8 +7,9 @@ import com.bolyartech.forge.server.endpoint.EndpointImpl;
 import com.bolyartech.forge.server.endpoint.RequestContext;
 import com.bolyartech.forge.server.endpoint.ResponseProducer;
 import com.bolyartech.forge.server.misc.TemplateEngine;
+import com.bolyartech.forge.server.response.HtmlResponse;
 import com.bolyartech.forge.server.response.Response;
-import com.bolyartech.forge.server.response.StringResponseImpl;
+import com.bolyartech.forge.server.response.AbstractStringResponse;
 
 
 public class RootEp extends EndpointImpl {
@@ -30,7 +31,7 @@ public class RootEp extends EndpointImpl {
         public Response produce(RequestContext ctx, Session session) {
             mTemplateEngine.assign("chudesni", "chudesni be");
 
-            return new StringResponseImpl(mTemplateEngine.render("root.vm"));
+            return new HtmlResponse(mTemplateEngine.render("root.vm"));
         }
     }
 }
