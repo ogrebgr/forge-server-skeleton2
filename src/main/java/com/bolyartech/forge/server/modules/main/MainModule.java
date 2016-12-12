@@ -2,6 +2,7 @@ package com.bolyartech.forge.server.modules.main;
 
 import com.bolyartech.forge.server.endpoint.Endpoint;
 import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.tple.velocity.VelocityTemplateEngineFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,13 +13,19 @@ public final class MainModule implements ForgeModule {
     private static final int MODULE_VERSION_CODE = 1;
     private static final String MODULE_VERSION_NAME = "1.0.0";
 
+    private final VelocityTemplateEngineFactory mVelocityTemplateEngineFactory;
+
+
+    public MainModule() {
+        mVelocityTemplateEngineFactory = new VelocityTemplateEngineFactory("templates/modules/main/");
+    }
 
 
     @Override
     public List<Endpoint> getEndpoints() {
         List<Endpoint> ret = new ArrayList<>();
 
-        ret.add(new RootEp());
+        ret.add(new RootEp(mVelocityTemplateEngineFactory.createNew()));
 
         return ret;
     }
