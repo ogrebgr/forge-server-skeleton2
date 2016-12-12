@@ -1,29 +1,22 @@
 package com.bolyartech.forge.server.modules.main;
 
 import com.bolyartech.forge.server.Session;
-import com.bolyartech.forge.server.route.RequestContext;
-import com.bolyartech.forge.server.response.ResponseProducer;
 import com.bolyartech.forge.server.misc.TemplateEngine;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
-import com.bolyartech.forge.server.response.HtmlResponse;
-import com.bolyartech.forge.server.response.Response;
+import com.bolyartech.forge.server.response.WebPage;
+import com.bolyartech.forge.server.route.RequestContext;
 
 
-public class RootRp implements ResponseProducer {
-    private final TemplateEngineFactory mTemplateEngineFactory;
-
-
+public class RootRp extends WebPage {
     public RootRp(TemplateEngineFactory templateEngineFactory) {
-        mTemplateEngineFactory = templateEngineFactory;
+        super(templateEngineFactory);
     }
 
 
     @Override
-    public Response produce(RequestContext ctx, Session session) {
-        TemplateEngine tple = mTemplateEngineFactory.createNew();
+    public String produceHtml(RequestContext ctx, Session session, TemplateEngine tple) {
+        tple.assign("chudesni", "chudesni be, ej");
 
-        tple.assign("chudesni", "chudesni be");
-
-        return new HtmlResponse(tple.render("root.vm"));
+        return tple.render("root.vm");
     }
 }
