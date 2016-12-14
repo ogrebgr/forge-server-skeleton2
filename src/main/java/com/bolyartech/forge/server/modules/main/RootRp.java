@@ -13,6 +13,11 @@ public class RootRp extends WebPage {
     }
 
 
+    public RootRp(TemplateEngineFactory templateEngineFactory, boolean enableGzipSupport) {
+        super(templateEngineFactory, enableGzipSupport);
+    }
+
+
     @Override
     public String produceHtml(RequestContext ctx, Session session, TemplateEngine tple) {
         tple.assign("chudesni", "chudesni be, ej");

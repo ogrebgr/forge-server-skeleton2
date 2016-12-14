@@ -1,6 +1,9 @@
 package com.bolyartech.forge.server.modules.main;
 
 import com.bolyartech.forge.server.HttpMethod;
+import com.bolyartech.forge.server.misc.MimeTypeResolver;
+import com.bolyartech.forge.server.misc.MimeTypeResolverImpl;
+import com.bolyartech.forge.server.response.StaticFile;
 import com.bolyartech.forge.server.route.Route;
 import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
@@ -27,7 +30,11 @@ public final class MainModule implements ForgeModule {
     public List<Route> createRoutes() {
         List<Route> ret = new ArrayList<>();
 
-        ret.add(new RouteImpl(HttpMethod.GET, "/presni", new RootRp(mTpleFactory)));
+        NotFoundResponse notFoundResponse = new NotFoundResponse();
+        MimeTypeResolver mimeTypeResolver = new MimeTypeResolverImpl();
+
+        ret.add(new RouteImpl(HttpMethod.GET, "/presni", new RootRp(mTpleFactory, true)));
+        ret.add(new RouteImpl(HttpMethod.GET, "/css", new StaticFile("/static", notFoundResponse, mimeTypeResolver, true)));
 
         return ret;
     }
