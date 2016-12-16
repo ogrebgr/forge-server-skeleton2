@@ -35,6 +35,7 @@ public final class MainModule implements ForgeModule {
 
         ret.add(new RouteImpl(HttpMethod.GET, "/presni", new RootRp(mTpleFactory, true)));
         ret.add(new RouteImpl(HttpMethod.GET, "/css", new StaticFile("/static", notFoundResponse, mimeTypeResolver, true)));
+        ret.add(new RouteImpl(HttpMethod.GET, "/upload", new FileUploadRp(true)));
 
         return ret;
     }
