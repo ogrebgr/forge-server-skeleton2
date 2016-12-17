@@ -34,6 +34,7 @@ public final class MainModule implements ForgeModule {
         MimeTypeResolver mimeTypeResolver = new MimeTypeResolverImpl();
 
         ret.add(new RouteImpl(HttpMethod.GET, "/presni", new RootRp(mTpleFactory, true)));
+        ret.add(new RouteImpl(HttpMethod.POST, "/presni", new RootRp(mTpleFactory, true)));
         ret.add(new RouteImpl(HttpMethod.GET, "/css", new StaticFile("/static", notFoundResponse, mimeTypeResolver, true)));
         ret.add(new RouteImpl(HttpMethod.GET, "/upload", new FileUploadRp(true)));
 
