@@ -28,17 +28,6 @@ public class RootRp extends WebPage {
     public String produceHtml(RequestContext ctx, Session session, TemplateEngine tple) {
         tple.assign("chudesni", "chudesni be, ej");
 
-        if (ctx.isMethod(HttpMethod.POST)) {
-            try {
-                Part txt = ctx.getPart("txt");
-                Part file = ctx.getPart("attachment");
-                DownloadUtils.saveDownloadedFile(file.getInputStream(), "/home/ogre/test.gif");
-            } catch (IOException | ServletException e) {
-                e.printStackTrace();
-            }
-        }
-
-
         return tple.render("root.vm");
     }
 }
