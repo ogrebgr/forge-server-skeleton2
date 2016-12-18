@@ -1,16 +1,10 @@
 package com.bolyartech.forge.server.modules.main;
 
-import com.bolyartech.forge.server.HttpMethod;
 import com.bolyartech.forge.server.Session;
-import com.bolyartech.forge.server.misc.DownloadUtils;
 import com.bolyartech.forge.server.misc.TemplateEngine;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
 import com.bolyartech.forge.server.response.WebPage;
 import com.bolyartech.forge.server.route.RequestContext;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.Part;
-import java.io.IOException;
 
 
 public class RootRp extends WebPage {
