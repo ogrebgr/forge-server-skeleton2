@@ -3,17 +3,17 @@ package com.bolyartech.forge.server.modules.main;
 import com.bolyartech.forge.server.Session;
 import com.bolyartech.forge.server.misc.TemplateEngine;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
-import com.bolyartech.forge.server.response.WebPage;
+import com.bolyartech.forge.server.handler.WebPage;
 import com.bolyartech.forge.server.route.RequestContext;
 
 
-public class RootRp extends WebPage {
-    public RootRp(TemplateEngineFactory templateEngineFactory) {
+public class RootWp extends WebPage {
+    public RootWp(TemplateEngineFactory templateEngineFactory) {
         super(templateEngineFactory);
     }
 
 
-    public RootRp(TemplateEngineFactory templateEngineFactory, boolean enableGzipSupport) {
+    public RootWp(TemplateEngineFactory templateEngineFactory, boolean enableGzipSupport) {
         super(templateEngineFactory, enableGzipSupport);
     }
 

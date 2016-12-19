@@ -37,7 +37,7 @@ public final class Scram {
         }
 
         if (!isValidUsername(username)) {
-            throw new IllegalArgumentException("Invalid username");
+            throw new IllegalArgumentException("Invalid username: " + username);
         }
 
         mUser = user;
