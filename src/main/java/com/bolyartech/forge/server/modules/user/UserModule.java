@@ -8,6 +8,7 @@ import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.modules.user.endpoints.AutoregistrationEp;
 import com.bolyartech.forge.server.modules.user.endpoints.LoginEp;
+import com.bolyartech.forge.server.modules.user.endpoints.LogoutEp;
 import com.bolyartech.forge.server.route.Route;
 import com.bolyartech.forge.server.route.RouteImpl;
 
@@ -47,6 +48,9 @@ public final class UserModule implements ForgeModule {
                 new AutoregistrationEp(mDbPool, mUserScramDbh, mUserDbh, mScramDbh)));
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/login",
                 new LoginEp(mDbPool, mScramDbh)));
+        ret.add(new RouteImpl(HttpMethod.GET, "/api/user/logout",
+                new LogoutEp()));
+
 
         return ret;
     }
