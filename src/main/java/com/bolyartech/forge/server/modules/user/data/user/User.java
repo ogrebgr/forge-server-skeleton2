@@ -30,6 +30,7 @@ public final class User {
         return mLoginType;
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof User) {

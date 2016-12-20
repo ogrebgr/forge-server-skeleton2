@@ -49,6 +49,11 @@ public final class Scram {
     }
 
 
+    public static boolean isValidUsername(String username) {
+        return username.matches("^[\\p{L}][\\p{L}\\p{N} _]{1,48}[\\p{L}\\p{N}]$");
+    }
+
+
     public long getUser() {
         return mUser;
     }
@@ -96,11 +101,6 @@ public final class Scram {
     @Override
     public int hashCode() {
         return Objects.hash(mUser, mUsername, mSalt, mServerKey, mStoredKey, mIterations);
-    }
-
-
-    public static boolean isValidUsername(String username) {
-        return username.matches("^[\\p{L}][\\p{L}\\p{N} _]{1,48}[\\p{L}\\p{N}]$");
     }
 
 }

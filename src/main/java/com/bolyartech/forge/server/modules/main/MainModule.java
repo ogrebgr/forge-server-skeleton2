@@ -1,13 +1,13 @@
 package com.bolyartech.forge.server.modules.main;
 
 import com.bolyartech.forge.server.HttpMethod;
+import com.bolyartech.forge.server.handler.StaticFileHandler;
 import com.bolyartech.forge.server.misc.MimeTypeResolver;
 import com.bolyartech.forge.server.misc.MimeTypeResolverImpl;
-import com.bolyartech.forge.server.handler.StaticFileHandler;
-import com.bolyartech.forge.server.route.Route;
-import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
 import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.route.Route;
+import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.tple.velocity.VelocityTemplateEngineFactory;
 
 import java.util.ArrayList;

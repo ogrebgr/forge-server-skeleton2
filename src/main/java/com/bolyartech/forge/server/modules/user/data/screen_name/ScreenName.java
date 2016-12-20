@@ -28,6 +28,11 @@ public class ScreenName {
     }
 
 
+    public static boolean isValid(String screenName) {
+        return screenName != null && screenName.matches("^[\\p{L}][\\p{L}\\p{N} ]{1,33}[\\p{L}\\p{N}]$");
+    }
+
+
     public long getUser() {
         return mUser;
     }
@@ -35,11 +40,6 @@ public class ScreenName {
 
     public String getScreenName() {
         return mScreenName;
-    }
-
-
-    public static boolean isValid(String screenName) {
-        return screenName != null && screenName.matches("^[\\p{L}][\\p{L}\\p{N} ]{1,33}[\\p{L}\\p{N}]$");
     }
 
 

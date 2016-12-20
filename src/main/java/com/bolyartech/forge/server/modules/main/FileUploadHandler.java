@@ -1,12 +1,12 @@
 package com.bolyartech.forge.server.modules.main;
 
-import com.bolyartech.forge.server.Session;
+import com.bolyartech.forge.server.handler.Handler;
 import com.bolyartech.forge.server.misc.GzipUtils;
 import com.bolyartech.forge.server.response.FileUploadResponse;
 import com.bolyartech.forge.server.response.Response;
 import com.bolyartech.forge.server.response.ResponseException;
-import com.bolyartech.forge.server.handler.Handler;
 import com.bolyartech.forge.server.route.RequestContext;
+import com.bolyartech.forge.server.session.Session;
 
 
 public class FileUploadHandler implements Handler {

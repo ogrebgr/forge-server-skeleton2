@@ -65,7 +65,6 @@ public class ScreenName {
 
 
     /**
-     *
      * @param dbc
      * @param userId
      * @param screenName
@@ -94,7 +93,7 @@ public class ScreenName {
 
 
         String sql = "UPDATE user_screen_names SET screen_name = ?, screen_name_lc = ?";
-        try(PreparedStatement st = dbc.prepareStatement(sql)) {
+        try (PreparedStatement st = dbc.prepareStatement(sql)) {
             st.setString(1, screenName);
             st.setString(2, screenName.toLowerCase());
             return st.executeUpdate() > 0;

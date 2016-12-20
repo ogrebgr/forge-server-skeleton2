@@ -1,6 +1,5 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
-import com.bolyartech.forge.server.Session;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.handler.ForgeDbEndpoint;
 import com.bolyartech.forge.server.modules.user.SessionVars;
@@ -14,6 +13,7 @@ import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
 import com.bolyartech.forge.server.response.forge.OkResponse;
 import com.bolyartech.forge.server.route.RequestContext;
+import com.bolyartech.forge.server.session.Session;
 import com.bolyartech.scram_sasl.common.ScramUtils;
 import com.google.gson.Gson;
 
@@ -54,8 +54,9 @@ public class AutoregistrationEp extends ForgeDbEndpoint {
         String password = UUID.randomUUID().toString();
         UserScram us;
 
-        while(true) {
-            username = "g"+ UUID.randomUUID().toString().replace("-", "");
+        while (true) {
+            // adding "g" as a prefix in order to make the username valid when UUID starts with number
+            username = "g" + UUID.randomUUID().toString().replace("-", "");
 
             try {
                 ScramUtils.NewPasswordStringData data = ScramUtils.byteArrayToStringData(

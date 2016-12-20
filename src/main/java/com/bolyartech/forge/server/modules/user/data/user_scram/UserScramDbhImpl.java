@@ -15,7 +15,6 @@ import java.sql.Statement;
 public class UserScramDbhImpl implements UserScramDbh {
 
     /**
-     *
      * @param dbc
      * @param userDbh
      * @param scramDbh

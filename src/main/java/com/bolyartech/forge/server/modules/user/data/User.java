@@ -92,33 +92,6 @@ public class User {
     }
 
 
-    public void auto2registered(Connection dbc, String username, String password, String screenName) throws SQLException {
-        String encryptedPassword = encryptPassword(password);
-
-        PreparedStatement st = null;
-        try {
-            dbc.setAutoCommit(false);
-            st = dbc.prepareStatement("UPDATE users SET username = ?, password = ? WHERE id = ?");
-            st.setString(1, username);
-            st.setString(2, encryptedPassword);
-            st.setLong(3, getId());
-            st.execute();
-
-            ScreenName.setForUser(dbc, getId(), screenName);
-        } catch (Exception e) {
-            sLogger.error("DB error {}", e);
-            dbc.rollback();
-            throw e;
-        } finally {
-            if (st != null) {
-                st.close();
-            }
-
-            dbc.setAutoCommit(true);
-        }
-    }
-
-
     public static boolean usernameExists(Connection dbc, String username) throws SQLException {
         if (dbc.isClosed()) {
             throw new IllegalArgumentException("DB connection is closed.");
@@ -195,41 +168,9 @@ public class User {
     }
 
 
-    public long getId() {
-        return mId;
-    }
-
-
-    public String getUsername() {
-        return mUsername;
-    }
-
-
-    public String getEncryptedPassword() {
-        return mEncryptedPassword;
-    }
-
-
-    public boolean isDisabled() {
-        return mIsDisabled;
-    }
-
-
     @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     public static boolean isValidUsername(String username) {
         return username.matches("^[\\p{L}][\\p{L}\\p{N} _]{1,48}[\\p{L}\\p{N}]$");
-    }
-
-
-    public static class AnonymousUserHelper {
-        public final User mUser;
-        public final String mClearPassword;
-
-
-        public AnonymousUserHelper(User user, String clearPassword) {
-            mUser = user;
-            mClearPassword = clearPassword;
-        }
     }
 
 
@@ -302,6 +243,64 @@ public class User {
         } catch (SQLException e) {
             sLogger.error("SQL error: ", e);
             throw e;
+        }
+    }
+
+
+    public void auto2registered(Connection dbc, String username, String password, String screenName) throws SQLException {
+        String encryptedPassword = encryptPassword(password);
+
+        PreparedStatement st = null;
+        try {
+            dbc.setAutoCommit(false);
+            st = dbc.prepareStatement("UPDATE users SET username = ?, password = ? WHERE id = ?");
+            st.setString(1, username);
+            st.setString(2, encryptedPassword);
+            st.setLong(3, getId());
+            st.execute();
+
+            ScreenName.setForUser(dbc, getId(), screenName);
+        } catch (Exception e) {
+            sLogger.error("DB error {}", e);
+            dbc.rollback();
+            throw e;
+        } finally {
+            if (st != null) {
+                st.close();
+            }
+
+            dbc.setAutoCommit(true);
+        }
+    }
+
+
+    public long getId() {
+        return mId;
+    }
+
+
+    public String getUsername() {
+        return mUsername;
+    }
+
+
+    public String getEncryptedPassword() {
+        return mEncryptedPassword;
+    }
+
+
+    public boolean isDisabled() {
+        return mIsDisabled;
+    }
+
+    public static class AnonymousUserHelper {
+        public final User mUser;
+        public final String mClearPassword;
+
+
+        public AnonymousUserHelper(User user, String clearPassword) {
+            mUser = user;
+            mClearPassword = clearPassword;
         }
     }
 

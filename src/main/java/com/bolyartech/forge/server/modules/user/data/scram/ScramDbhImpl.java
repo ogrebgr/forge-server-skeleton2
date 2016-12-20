@@ -25,7 +25,7 @@ public class ScramDbhImpl implements ScramDbh {
                             rs.getString(3),
                             rs.getString(4),
                             rs.getInt(5)
-                            );
+                    );
                 } else {
                     return null;
                 }

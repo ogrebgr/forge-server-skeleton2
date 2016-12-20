@@ -13,11 +13,6 @@ public enum UserLoginType {
     }
 
 
-    public long getCode() {
-        return mCode;
-    }
-
-
     public static UserLoginType fromLong(long l) {
         if (l == 0) {
             return UserLoginType.SCRAM;
@@ -32,5 +27,10 @@ public enum UserLoginType {
         }
 
         throw new IllegalArgumentException("No such UserLoginType: " + l);
+    }
+
+
+    public long getCode() {
+        return mCode;
     }
 }

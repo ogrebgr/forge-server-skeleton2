@@ -47,7 +47,7 @@ public class UserJson {
             st.setLong(1, idGreaterThan);
             st.setLong(2, pageSize);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 UserJson tmp = new UserJson(rs.getLong(1),
                         rs.getString(2),
                         rs.getString(3),

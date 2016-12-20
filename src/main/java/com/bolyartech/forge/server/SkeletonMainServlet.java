@@ -20,20 +20,21 @@ public class SkeletonMainServlet extends MainServlet {
 
     private DbPool mDbPool;
 
-    @Override
-    protected List<ForgeModule> getModules() {
-        List<ForgeModule> ret = new ArrayList<>();
-        ret.add(new MainModule());
-        ret.add(new UserModule(mDbPool, new UserScramDbhImpl(), new UserDbhImpl(), new ScramDbhImpl()));
-        return ret;
-    }
-
 
     @Override
     public void init() throws ServletException {
         mDbPool = createDbPool();
 
         super.init();
+    }
+
+
+    @Override
+    protected List<ForgeModule> getModules() {
+        List<ForgeModule> ret = new ArrayList<>();
+        ret.add(new MainModule());
+        ret.add(new UserModule(mDbPool, new UserScramDbhImpl(), new UserDbhImpl(), new ScramDbhImpl()));
+        return ret;
     }
 
 

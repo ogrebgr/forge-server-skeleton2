@@ -51,11 +51,6 @@ public class UserResponseCodes {
         }
 
 
-        public int getCode() {
-            return mCode;
-        }
-
-
         public static Errors fromInt(int code) {
             Errors ret = mTypesByValue.get(code);
             if (ret != null) {
@@ -63,6 +58,11 @@ public class UserResponseCodes {
             } else {
                 return null;
             }
+        }
+
+
+        public int getCode() {
+            return mCode;
         }
     }
 }
