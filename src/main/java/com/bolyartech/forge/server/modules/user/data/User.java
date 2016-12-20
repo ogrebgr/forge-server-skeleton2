@@ -293,6 +293,7 @@ public class User {
         return mIsDisabled;
     }
 
+
     public static class AnonymousUserHelper {
         public final User mUser;
         public final String mClearPassword;

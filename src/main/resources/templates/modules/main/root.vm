@@ -8,10 +8,10 @@
 <h1>Presni i $chudesni</h1>
 <form action="/presni" method="post" name="test" enctype="multipart/form-data">
     <input type="text" size="50" id="txt2" name="txt"/>
-    <br />
+    <br/>
     <input class="form" name="attachment" type="file" id="attachment_id" size="70"/>
-    <br />
-    <input name="attachment_upload_submit" type="submit" value="Upload" class="form_submit" />
+    <br/>
+    <input name="attachment_upload_submit" type="submit" value="Upload" class="form_submit"/>
 </form>
 </body>
 </html>
