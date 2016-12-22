@@ -4,6 +4,8 @@ import java.util.Objects;
 
 
 public final class User {
+    private static final int MIN_PASSWORD_LENGTH = 7;
+
     private final long mId;
     private final boolean mIsDisabled;
     private final UserLoginType mLoginType;
@@ -46,4 +48,19 @@ public final class User {
     public int hashCode() {
         return Objects.hash(mId, mIsDisabled, mLoginType);
     }
+
+
+    public static boolean isValidUsername(String username) {
+        return username.matches("^[\\p{L}][\\p{L}\\p{N} _]{1,48}[\\p{L}\\p{N}]$");
+    }
+
+
+    public static boolean isValidPasswordLength(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("password is null");
+        }
+
+        return password.length() >= MIN_PASSWORD_LENGTH;
+    }
+
 }

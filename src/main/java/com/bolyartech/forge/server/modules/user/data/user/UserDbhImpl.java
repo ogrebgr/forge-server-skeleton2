@@ -1,5 +1,6 @@
 package com.bolyartech.forge.server.modules.user.data.user;
 
+import com.bolyartech.forge.server.db.DbUtils;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
@@ -11,6 +12,7 @@ public class UserDbhImpl implements UserDbh {
 
     @Override
     public User loadById(Connection dbc, long id) throws SQLException {
+        DbUtils.ensureOperationalDbc(dbc);
         String sql = "SELECT is_disabled, login_type FROM users WHERE id = ?";
 
         try (PreparedStatement psLoad = dbc.prepareStatement(sql)) {
@@ -31,7 +33,7 @@ public class UserDbhImpl implements UserDbh {
 
     @Override
     public User createNew(Connection dbc, boolean isDisabled, UserLoginType lt) throws SQLException {
-
+        DbUtils.ensureOperationalDbc(dbc);
         String sql = "INSERT INTO users (is_disabled, login_type) VALUES (?, ?)";
         try (PreparedStatement psInsert = dbc.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             psInsert.setInt(1, isDisabled ? 1 : 0);
@@ -48,6 +50,7 @@ public class UserDbhImpl implements UserDbh {
 
     @Override
     public User changeDisabled(Connection dbc, User user, boolean disabled) throws SQLException {
+        DbUtils.ensureOperationalDbc(dbc);
         if (user.getId() == 0) {
             throw new IllegalArgumentException("User is new, id = 0");
         }
@@ -64,6 +67,7 @@ public class UserDbhImpl implements UserDbh {
 
     @Override
     public User changeLoginType(Connection dbc, User user, UserLoginType lt) throws SQLException {
+        DbUtils.ensureOperationalDbc(dbc);
         if (user.getId() == 0) {
             throw new IllegalArgumentException("User is new, id = 0");
         }
@@ -84,6 +88,7 @@ public class UserDbhImpl implements UserDbh {
 
     @Override
     public boolean exists(Connection dbc, long id) throws SQLException {
+        DbUtils.ensureOperationalDbc(dbc);
         String sql = "SELECT id FROM users WHERE id = ?";
 
         try (PreparedStatement psLoad = dbc.prepareStatement(sql)) {

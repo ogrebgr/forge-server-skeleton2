@@ -6,6 +6,7 @@ import com.bolyartech.forge.server.module.ForgeModule;
 import com.bolyartech.forge.server.modules.main.MainModule;
 import com.bolyartech.forge.server.modules.user.UserModule;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
+import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.user.UserDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbhImpl;
 import org.slf4j.LoggerFactory;
@@ -33,7 +34,11 @@ public class SkeletonMainServlet extends MainServlet {
     protected List<ForgeModule> getModules() {
         List<ForgeModule> ret = new ArrayList<>();
         ret.add(new MainModule());
-        ret.add(new UserModule(mDbPool, new UserScramDbhImpl(), new UserDbhImpl(), new ScramDbhImpl()));
+        ret.add(new UserModule(mDbPool,
+                new UserScramDbhImpl(),
+                new UserDbhImpl(),
+                new ScramDbhImpl(),
+                new ScreenNameDbhImpl()));
         return ret;
     }
 

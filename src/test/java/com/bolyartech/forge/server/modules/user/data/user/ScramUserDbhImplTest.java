@@ -7,6 +7,7 @@ import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbhImpl;
+import com.bolyartech.scram_sasl.common.ScramUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,7 +26,7 @@ public class ScramUserDbhImplTest {
     public void setup() throws SQLException, ForgeConfigurationException {
         if (mDbPool == null) {
             ClassLoader classLoader = getClass().getClassLoader();
-            File file = new File(classLoader.getResource("db.conf").getFile());
+            File file = new File(classLoader.getResource("conf/db.conf").getFile());
 
             DbConfigurationLoader loader = new DbConfigurationLoaderImpl();
             DbConfiguration dbConf = loader.load(this.getClass().getClassLoader());
@@ -48,7 +49,10 @@ public class ScramUserDbhImplTest {
         UserScramDbh dbh = new UserScramDbhImpl();
 
         Connection dbc = mDbPool.getConnection();
-        UserScram scrNew = dbh.createNew(dbc, userDbh, scramDbh, "username", "salt", "server_key", "stored_key", 11);
+        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "username", "salt",
+                "server_key", "stored_key", 11);
+
+        UserScram scrNew = dbh.createNewAnonymous(dbc, userDbh, scramDbh, "username", data);
         dbc.close();
 
         assertTrue("user not set", scrNew.getUser() != null);

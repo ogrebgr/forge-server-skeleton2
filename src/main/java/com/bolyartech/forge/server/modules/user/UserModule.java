@@ -4,11 +4,13 @@ import com.bolyartech.forge.server.HttpMethod;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.module.ForgeModule;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
+import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.modules.user.endpoints.AutoregistrationEp;
 import com.bolyartech.forge.server.modules.user.endpoints.LoginEp;
 import com.bolyartech.forge.server.modules.user.endpoints.LogoutEp;
+import com.bolyartech.forge.server.modules.user.endpoints.RegistrationEp;
 import com.bolyartech.forge.server.route.Route;
 import com.bolyartech.forge.server.route.RouteImpl;
 
@@ -25,18 +27,21 @@ public final class UserModule implements ForgeModule {
     private final UserScramDbh mUserScramDbh;
     private final UserDbh mUserDbh;
     private final ScramDbh mScramDbh;
+    private final ScreenNameDbh mScreenNameDbh;
 
 
     public UserModule(
             DbPool dbPool,
             UserScramDbh userScramDbh,
             UserDbh userDbh,
-            ScramDbh scramDbh) {
+            ScramDbh scramDbh,
+            ScreenNameDbh screenNameDbh) {
 
         mDbPool = dbPool;
         mUserScramDbh = userScramDbh;
         mUserDbh = userDbh;
         mScramDbh = scramDbh;
+        mScreenNameDbh = screenNameDbh;
     }
 
 
@@ -45,9 +50,11 @@ public final class UserModule implements ForgeModule {
         List<Route> ret = new ArrayList<>();
 
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/autoregister",
-                new AutoregistrationEp(mDbPool, mUserScramDbh, mUserDbh, mScramDbh)));
+                new AutoregistrationEp(mDbPool, mUserDbh, mScramDbh, mUserScramDbh)));
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/login",
-                new LoginEp(mDbPool, mScramDbh)));
+                new LoginEp(mDbPool, mScramDbh, mScreenNameDbh)));
+        ret.add(new RouteImpl(HttpMethod.POST, "/api/user/register",
+                new RegistrationEp(mDbPool, mUserDbh, mScramDbh, mUserScramDbh, mScreenNameDbh)));
         ret.add(new RouteImpl(HttpMethod.GET, "/api/user/logout",
                 new LogoutEp()));
 

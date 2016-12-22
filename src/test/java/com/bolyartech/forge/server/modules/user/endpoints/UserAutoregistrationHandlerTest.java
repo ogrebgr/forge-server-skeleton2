@@ -36,16 +36,16 @@ public class UserAutoregistrationHandlerTest {
         Scram scram = new Scram(111, "testuser", "aaa", "aaaa", "aaa", 1);
         UserScram userScram = new UserScram(user, scram);
 
-        when(userScramDbh.createNew(any(), any(), any(), any(), any())).thenReturn(userScram);
+        when(userScramDbh.createNewAnonymous(any(), any(), any(), any(), any())).thenReturn(userScram);
 
         UserDbh userDbh = mock(UserDbh.class);
         ScramDbh scramDbh = mock(ScramDbh.class);
 
         AutoregistrationEp ep = new AutoregistrationEp(
                 dbPool,
-                userScramDbh,
                 userDbh,
-                scramDbh
+                scramDbh,
+                userScramDbh
         );
 
         RequestContext req = mock(RequestContext.class);

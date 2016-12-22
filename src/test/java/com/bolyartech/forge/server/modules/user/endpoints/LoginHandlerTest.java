@@ -1,5 +1,7 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
+import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
+import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.session.Session;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
@@ -42,7 +44,7 @@ public class LoginHandlerTest {
         ScramUtils.NewPasswordStringData data = ScramUtils.byteArrayToStringData(
                 ScramUtils.newPassword(password,
                         salt,
-                        AutoregistrationEp.SCRAM_ITERATIONS,
+                        Scram.DEFAULT_ITERATIONS,
                         LoginEp.HMAC,
                         LoginEp.DIGEST)
         );
@@ -66,7 +68,7 @@ public class LoginHandlerTest {
 
         Session session = new TestSession();
 
-        LoginEp ep = new LoginEp(dbPool, scramDbh);
+        LoginEp ep = new LoginEp(dbPool, scramDbh, mock(ScreenNameDbh.class));
 
         ForgeResponse forgeResp = ep.handle(req, session, dbc);
         assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK.getCode());

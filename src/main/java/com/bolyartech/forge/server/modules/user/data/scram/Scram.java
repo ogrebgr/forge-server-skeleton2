@@ -6,6 +6,10 @@ import java.util.Objects;
 
 
 public final class Scram {
+    public static final int DEFAULT_ITERATIONS = 4096;
+    public static final String DEFAULT_DIGEST = "HmacSHA512";
+    public static final String DEFAULT_HMAC = "SHA-512";
+
     private final long mUser;
     private final String mUsername;
     private final String mSalt;

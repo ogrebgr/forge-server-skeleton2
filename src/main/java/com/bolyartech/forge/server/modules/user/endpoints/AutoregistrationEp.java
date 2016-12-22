@@ -5,6 +5,7 @@ import com.bolyartech.forge.server.handler.ForgeDbEndpoint;
 import com.bolyartech.forge.server.modules.user.SessionVars;
 import com.bolyartech.forge.server.modules.user.data.RokResponseAutoregistration;
 import com.bolyartech.forge.server.modules.user.data.SessionInfo;
+import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
@@ -26,19 +27,19 @@ import java.util.UUID;
 
 
 public class AutoregistrationEp extends ForgeDbEndpoint {
-    static final int SCRAM_ITERATIONS = 4096;
     private final Gson mGson;
-    private final UserScramDbh mUserScramDbh;
+
     private final UserDbh mUserDbh;
     private final ScramDbh mScramDbh;
+    private final UserScramDbh mUserScramDbh;
 
 
-    public AutoregistrationEp(DbPool dbPool, UserScramDbh userScramDbh, UserDbh userDbh, ScramDbh scramDbh) {
+    public AutoregistrationEp(DbPool dbPool, UserDbh userDbh, ScramDbh scramDbh, UserScramDbh userScramDbh) {
         super(dbPool);
-        mUserScramDbh = userScramDbh;
+        mGson = new Gson();
         mUserDbh = userDbh;
         mScramDbh = scramDbh;
-        mGson = new Gson();
+        mUserScramDbh = userScramDbh;
     }
 
 
@@ -60,10 +61,10 @@ public class AutoregistrationEp extends ForgeDbEndpoint {
 
             try {
                 ScramUtils.NewPasswordStringData data = ScramUtils.byteArrayToStringData(
-                        ScramUtils.newPassword(password, salt, SCRAM_ITERATIONS, "HmacSHA512", "SHA-512")
+                        ScramUtils.newPassword(password, salt, Scram.DEFAULT_ITERATIONS, "HmacSHA512", "SHA-512")
                 );
 
-                us = mUserScramDbh.createNew(dbc, mUserDbh, mScramDbh, username, data);
+                us = mUserScramDbh.createNewAnonymous(dbc, mUserDbh, mScramDbh, username, data);
                 if (us != null) {
                     break;
                 }
