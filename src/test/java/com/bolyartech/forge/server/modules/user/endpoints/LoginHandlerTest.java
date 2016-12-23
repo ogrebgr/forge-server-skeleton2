@@ -1,5 +1,6 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
+import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.session.Session;
@@ -15,6 +16,8 @@ import com.bolyartech.scram_sasl.client.ScramClientFunctionality;
 import com.bolyartech.scram_sasl.client.ScramClientFunctionalityImpl;
 import com.bolyartech.scram_sasl.common.ScramException;
 import com.bolyartech.scram_sasl.common.ScramUtils;
+import netscape.javascript.JSObject;
+import org.json.JSONObject;
 import org.junit.Test;
 
 import java.security.InvalidKeyException;
@@ -41,16 +44,10 @@ public class LoginHandlerTest {
         byte[] salt = new byte[24];
         random.nextBytes(salt);
 
-        ScramUtils.NewPasswordStringData data = ScramUtils.byteArrayToStringData(
-                ScramUtils.newPassword(password,
-                        salt,
-                        Scram.DEFAULT_ITERATIONS,
-                        LoginEp.HMAC,
-                        LoginEp.DIGEST)
-        );
+        ScramUtils.NewPasswordStringData data = UserScramUtils.createPasswordData(password);
 
-        ScramClientFunctionality clientScram = new ScramClientFunctionalityImpl(LoginEp.DIGEST,
-                LoginEp.HMAC);
+        ScramClientFunctionality clientScram = new ScramClientFunctionalityImpl(UserScramUtils.DEFAULT_DIGEST,
+                UserScramUtils.DEFAULT_HMAC);
         String clientFirst = clientScram.prepareFirstMessage(username);
 
         DbPool dbPool = mock(DbPool.class);
@@ -81,6 +78,8 @@ public class LoginHandlerTest {
         ForgeResponse forgeResp2 = ep.handle(req, session, dbc);
         assertTrue("Not OK", forgeResp2.getResultCode() == BasicResponseCodes.Oks.OK.getCode());
 
-        assertTrue("invalid final server message", clientScram.checkServerFinalMessage(forgeResp2.getPayload()));
+        JSONObject jobj = new JSONObject(forgeResp2.getPayload());
+        String serverFinal = jobj.getString("final_message");
+        assertTrue("invalid final server message", clientScram.checkServerFinalMessage(serverFinal));
     }
 }

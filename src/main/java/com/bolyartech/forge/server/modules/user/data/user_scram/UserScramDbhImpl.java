@@ -2,10 +2,11 @@ package com.bolyartech.forge.server.modules.user.data.user_scram;
 
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
+import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
-import com.bolyartech.forge.server.modules.user.data.user.User;
-import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
-import com.bolyartech.forge.server.modules.user.data.user.UserLoginType;
+import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
+import com.bolyartech.forge.server.modules.user.data.UserLoginType;
 import com.bolyartech.scram_sasl.common.ScramUtils;
 
 import java.sql.Connection;
@@ -16,11 +17,11 @@ import java.sql.Statement;
 public class UserScramDbhImpl implements UserScramDbh {
 
     @Override
-    public UserScram createNewAnonymous(Connection dbc,
-                                        UserDbh userDbh,
-                                        ScramDbh scramDbh,
-                                        String username,
-                                        ScramUtils.NewPasswordStringData data) throws SQLException {
+    public UserScram createNew(Connection dbc,
+                               UserDbh userDbh,
+                               ScramDbh scramDbh,
+                               String username,
+                               ScramUtils.NewPasswordStringData data) throws SQLException {
 
         try {
             String sqlLock = "LOCK TABLES users WRITE, user_scram WRITE";
@@ -37,7 +38,7 @@ public class UserScramDbhImpl implements UserScramDbh {
                     return new UserScram(user, scram);
                 } catch (SQLException e) {
                     dbc.rollback();
-                    return null;
+                    throw e;
                 } finally {
                     dbc.setAutoCommit(true);
                 }
@@ -88,9 +89,9 @@ public class UserScramDbhImpl implements UserScramDbh {
                 dbc.commit();
 
                 return new NewNamedResult(true, new UserScram(user, scram), false);
-            } catch (SQLException e) {
+            } catch (Exception e) {
                 dbc.rollback();
-                return null;
+                throw e;
             } finally {
                 dbc.setAutoCommit(true);
             }
@@ -99,5 +100,59 @@ public class UserScramDbhImpl implements UserScramDbh {
             Statement stLock = dbc.createStatement();
             stLock.execute(sqlLock);
         }
+    }
+
+
+    @Override
+    public boolean replaceExisting(Connection dbc,
+                                        ScramDbh scramDbh,
+                                        ScreenNameDbh screenNameDbh,
+                                        long userId,
+                                        String newUsername,
+                                        ScramUtils.NewPasswordStringData data,
+                                        String screenName) throws SQLException {
+
+        try {
+            String sqlLock = "LOCK TABLES user_scram WRITE, user_screen_names WRITE";
+            Statement stLock = dbc.createStatement();
+            stLock.execute(sqlLock);
+
+            if (screenNameDbh.exists(dbc, screenName)) {
+                return false;
+            }
+
+            try {
+                dbc.setAutoCommit(false);
+
+                replaceExistingNamed(dbc, scramDbh, userId, newUsername, data);
+                screenNameDbh.createNew(dbc, userId, screenName);
+                dbc.commit();
+
+                return true;
+            } catch (Exception e) {
+                dbc.rollback();
+                throw e;
+            } finally {
+                dbc.setAutoCommit(true);
+            }
+        } finally {
+            String sqlLock = "UNLOCK TABLES";
+            Statement stLock = dbc.createStatement();
+            stLock.execute(sqlLock);
+        }
+    }
+
+
+    @Override
+    public void replaceExistingNamed(Connection dbc,
+                                   ScramDbh scramDbh,
+                                   long userId,
+                                   String newUsername,
+                                   ScramUtils.NewPasswordStringData data) throws SQLException {
+
+        scramDbh.replace(dbc, userId,
+                newUsername,
+                data.salt, data.serverKey, data.storedKey,
+                UserScramUtils.DEFAULT_ITERATIONS);
     }
 }

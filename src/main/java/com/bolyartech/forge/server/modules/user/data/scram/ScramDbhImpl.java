@@ -120,9 +120,9 @@ public class ScramDbhImpl implements ScramDbh {
 
 
     @Override
-    public Scram replace(Connection dbc, Scram old, String username, String salt, String serverKey, String storedKey, int iterations) throws SQLException {
+    public Scram replace(Connection dbc, long userId, String username, String salt, String serverKey, String storedKey, int iterations) throws SQLException {
 
-        Scram ret = new Scram(old.getUser(), username, salt, serverKey,
+        Scram ret = new Scram(userId, username, salt, serverKey,
                 storedKey, iterations);
 
         String sql = "UPDATE user_scram SET " +

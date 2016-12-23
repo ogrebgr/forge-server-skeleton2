@@ -1,4 +1,4 @@
-package com.bolyartech.forge.server.modules.user.data.user;
+package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
@@ -93,7 +93,7 @@ public class ScramDbhImplTest {
         User userNew = userDbh.createNew(dbc, true, UserLoginType.GOOGLE);
 
         Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", "salt", "server_key", "stored_key", 11);
-        Scram scrChanged = dbh.replace(dbc, scrNew, "newusername", "salt2", "server_key2", "stored_key2", 12);
+        Scram scrChanged = dbh.replace(dbc, userNew.getId(), "newusername", "salt2", "server_key2", "stored_key2", 12);
         Scram scrLoaded = dbh.loadByUsername(dbc, "newusername");
         dbc.close();
 

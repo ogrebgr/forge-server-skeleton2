@@ -5,7 +5,7 @@ import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.module.ForgeModule;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
-import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.modules.user.endpoints.AutoregistrationEp;
 import com.bolyartech.forge.server.modules.user.endpoints.LoginEp;

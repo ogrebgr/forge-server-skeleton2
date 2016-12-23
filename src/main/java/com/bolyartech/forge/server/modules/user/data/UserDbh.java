@@ -1,4 +1,4 @@
-package com.bolyartech.forge.server.modules.user.data.user;
+package com.bolyartech.forge.server.modules.user.data;
 
 import java.sql.Connection;
 import java.sql.SQLException;

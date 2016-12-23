@@ -5,9 +5,9 @@ import com.bolyartech.forge.server.handler.ForgeDbEndpoint;
 import com.bolyartech.forge.server.modules.user.SessionVars;
 import com.bolyartech.forge.server.modules.user.data.RokResponseAutoregistration;
 import com.bolyartech.forge.server.modules.user.data.SessionInfo;
-import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
-import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
+import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.response.ResponseException;
@@ -61,10 +61,13 @@ public class AutoregistrationEp extends ForgeDbEndpoint {
 
             try {
                 ScramUtils.NewPasswordStringData data = ScramUtils.byteArrayToStringData(
-                        ScramUtils.newPassword(password, salt, Scram.DEFAULT_ITERATIONS, "HmacSHA512", "SHA-512")
+                        ScramUtils.newPassword(password, salt, UserScramUtils.DEFAULT_ITERATIONS,
+                                UserScramUtils.DEFAULT_DIGEST,
+                                UserScramUtils.DEFAULT_HMAC
+                                )
                 );
 
-                us = mUserScramDbh.createNewAnonymous(dbc, mUserDbh, mScramDbh, username, data);
+                us = mUserScramDbh.createNew(dbc, mUserDbh, mScramDbh, username, data);
                 if (us != null) {
                     break;
                 }

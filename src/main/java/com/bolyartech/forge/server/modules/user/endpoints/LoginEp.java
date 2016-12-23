@@ -8,6 +8,7 @@ import com.bolyartech.forge.server.modules.user.UserResponseCodes;
 import com.bolyartech.forge.server.modules.user.data.SessionInfo;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
+import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.response.ResponseException;
@@ -29,9 +30,6 @@ import java.sql.SQLException;
 
 
 public class LoginEp extends ForgeDbEndpoint {
-    static final String DIGEST = "SHA-512";
-    static final String HMAC = "HmacSHA512";
-
     static final String PARAM_STEP = "step";
     static final String PARAM_DATA = "data";
 
@@ -102,7 +100,8 @@ public class LoginEp extends ForgeDbEndpoint {
         // first remove existing old functionality if any
         session.setVar(SessionVars.VAR_SCRAM_FUNC, null);
 
-        ScramServerFunctionality scram = new ScramServerFunctionalityImpl(DIGEST, HMAC);
+        ScramServerFunctionality scram = new ScramServerFunctionalityImpl(UserScramUtils.DEFAULT_DIGEST,
+                UserScramUtils.DEFAULT_HMAC);
         String username = scram.handleClientFirstMessage(data);
 
         if (username != null) {

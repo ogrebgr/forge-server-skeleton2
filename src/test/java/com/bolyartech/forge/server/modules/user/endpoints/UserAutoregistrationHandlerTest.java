@@ -6,9 +6,9 @@ import com.bolyartech.forge.server.modules.user.SessionVars;
 import com.bolyartech.forge.server.modules.user.data.RokResponseAutoregistration;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
-import com.bolyartech.forge.server.modules.user.data.user.User;
-import com.bolyartech.forge.server.modules.user.data.user.UserDbh;
-import com.bolyartech.forge.server.modules.user.data.user.UserLoginType;
+import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
+import com.bolyartech.forge.server.modules.user.data.UserLoginType;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.response.ResponseException;
@@ -36,7 +36,7 @@ public class UserAutoregistrationHandlerTest {
         Scram scram = new Scram(111, "testuser", "aaa", "aaaa", "aaa", 1);
         UserScram userScram = new UserScram(user, scram);
 
-        when(userScramDbh.createNewAnonymous(any(), any(), any(), any(), any())).thenReturn(userScram);
+        when(userScramDbh.createNew(any(), any(), any(), any(), any())).thenReturn(userScram);
 
         UserDbh userDbh = mock(UserDbh.class);
         ScramDbh scramDbh = mock(ScramDbh.class);

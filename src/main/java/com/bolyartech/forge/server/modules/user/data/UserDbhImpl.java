@@ -1,4 +1,4 @@
-package com.bolyartech.forge.server.modules.user.data.user;
+package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.db.DbUtils;
 import org.slf4j.LoggerFactory;
