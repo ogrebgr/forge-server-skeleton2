@@ -97,7 +97,7 @@ public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
         if (rez) {
             return new OkResponse();
         } else {
-            return new ForgeResponse("Scree name exists", UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
+            return new ForgeResponse("Scree name already taken", UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
         }
     }
 

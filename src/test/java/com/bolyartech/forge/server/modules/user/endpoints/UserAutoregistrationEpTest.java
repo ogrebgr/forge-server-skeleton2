@@ -26,7 +26,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 
 
-public class UserAutoregistrationHandlerTest {
+public class UserAutoregistrationEpTest {
     @Test
     public void test() throws SQLException, ResponseException {
         DbPool dbPool = mock(DbPool.class);

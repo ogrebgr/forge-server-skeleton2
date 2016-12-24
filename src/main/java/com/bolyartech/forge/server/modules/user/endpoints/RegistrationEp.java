@@ -28,6 +28,11 @@ import java.sql.SQLException;
 
 
 public class RegistrationEp extends ForgeDbSecureEndpoint {
+    static final String PARAM_USERNAME = "username";
+    static final String PARAM_PASSWORD = "password";
+    static final String PARAM_SCREEN_NAME = "screen_name";
+
+
     private final Gson mGson;
 
     private final UserDbh mUserDbh;
@@ -55,9 +60,9 @@ public class RegistrationEp extends ForgeDbSecureEndpoint {
     public ForgeResponse handle(RequestContext ctx, Session session, Connection dbc) throws ResponseException,
             SQLException {
 
-        String username = ctx.getFromPost("username").trim();
-        String password = ctx.getFromPost("password");
-        String screenName = ctx.getFromPost("screen_name".trim());
+        String username = ctx.getFromPost(PARAM_USERNAME);
+        String password = ctx.getFromPost(PARAM_PASSWORD);
+        String screenName = ctx.getFromPost(PARAM_SCREEN_NAME);
 
 
         if (!Params.areAllPresent(username, password, screenName)) {
@@ -74,14 +79,6 @@ public class RegistrationEp extends ForgeDbSecureEndpoint {
 
         if (!ScreenName.isValid(screenName)) {
             return new ForgeResponse("Invalid screen name", UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
-        }
-
-        if (mScramDbh.usernameExists(dbc, username)) {
-            return new ForgeResponse("Username exists", UserResponseCodes.Errors.USERNAME_EXISTS.getCode());
-        }
-
-        if (mScreenNameDbh.exists(dbc, screenName)) {
-            return new ForgeResponse("Scree name exists", UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
         }
 
 

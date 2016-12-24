@@ -11,6 +11,11 @@ public class ScreenNameDbhImpl implements ScreenNameDbh {
             Statement stLock = dbc.createStatement();
             stLock.execute(sqlLock);
 
+            ScreenName existing = loadByUser(dbc, user);
+            if (existing != null) {
+                throw new IllegalStateException("User already have screen name: " + existing.getScreenName());
+            }
+
             if (!exists(dbc, screenName)) {
                 ScreenName ret = new ScreenName(user, screenName);
 
