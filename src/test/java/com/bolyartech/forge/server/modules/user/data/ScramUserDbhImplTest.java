@@ -26,6 +26,7 @@ import static org.junit.Assert.assertTrue;
 public class ScramUserDbhImplTest {
     private DbPool mDbPool;
 
+
     @Before
     public void setup() throws SQLException, ForgeConfigurationException {
         if (mDbPool == null) {
@@ -134,6 +135,7 @@ public class ScramUserDbhImplTest {
         assertTrue("Screen name is not duplicate when it should", !rez.usernameExist);
     }
 
+
     @Test
     public void testReplaceExistingNamed() throws SQLException {
         ScramDbh scramDbh = new ScramDbhImpl();
@@ -153,7 +155,7 @@ public class ScramUserDbhImplTest {
         dbh.replaceExistingNamed(dbc, scramDbh, rez.mUserScram.getUser().getId(),
                 "gele",
                 data
-                );
+        );
 
         Scram scram = scramDbh.loadByUser(dbc, rez.mUserScram.getUser().getId());
 

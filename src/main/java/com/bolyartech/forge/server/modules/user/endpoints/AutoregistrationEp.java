@@ -5,9 +5,9 @@ import com.bolyartech.forge.server.handler.ForgeDbEndpoint;
 import com.bolyartech.forge.server.modules.user.SessionVars;
 import com.bolyartech.forge.server.modules.user.data.RokResponseAutoregistration;
 import com.bolyartech.forge.server.modules.user.data.SessionInfo;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
-import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.response.ResponseException;
@@ -64,7 +64,7 @@ public class AutoregistrationEp extends ForgeDbEndpoint {
                         ScramUtils.newPassword(password, salt, UserScramUtils.DEFAULT_ITERATIONS,
                                 UserScramUtils.DEFAULT_DIGEST,
                                 UserScramUtils.DEFAULT_HMAC
-                                )
+                        )
                 );
 
                 us = mUserScramDbh.createNew(dbc, mUserDbh, mScramDbh, username, data);

@@ -1,20 +1,20 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
-import com.bolyartech.forge.server.session.Session;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.modules.user.SessionVars;
 import com.bolyartech.forge.server.modules.user.data.RokResponseAutoregistration;
-import com.bolyartech.forge.server.modules.user.data.scram.Scram;
-import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.User;
 import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.UserLoginType;
+import com.bolyartech.forge.server.modules.user.data.scram.Scram;
+import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.BasicResponseCodes;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
 import com.bolyartech.forge.server.route.RequestContext;
+import com.bolyartech.forge.server.session.Session;
 import com.google.common.base.Strings;
 import com.google.gson.Gson;
 import org.junit.Test;

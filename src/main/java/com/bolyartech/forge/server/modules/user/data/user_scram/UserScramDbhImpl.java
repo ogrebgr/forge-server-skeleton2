@@ -1,12 +1,12 @@
 package com.bolyartech.forge.server.modules.user.data.user_scram;
 
+import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
+import com.bolyartech.forge.server.modules.user.data.UserLoginType;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
-import com.bolyartech.forge.server.modules.user.data.User;
-import com.bolyartech.forge.server.modules.user.data.UserDbh;
-import com.bolyartech.forge.server.modules.user.data.UserLoginType;
 import com.bolyartech.scram_sasl.common.ScramUtils;
 
 import java.sql.Connection;
@@ -105,12 +105,12 @@ public class UserScramDbhImpl implements UserScramDbh {
 
     @Override
     public boolean replaceExisting(Connection dbc,
-                                        ScramDbh scramDbh,
-                                        ScreenNameDbh screenNameDbh,
-                                        long userId,
-                                        String newUsername,
-                                        ScramUtils.NewPasswordStringData data,
-                                        String screenName) throws SQLException {
+                                   ScramDbh scramDbh,
+                                   ScreenNameDbh screenNameDbh,
+                                   long userId,
+                                   String newUsername,
+                                   ScramUtils.NewPasswordStringData data,
+                                   String screenName) throws SQLException {
 
         try {
             String sqlLock = "LOCK TABLES user_scram WRITE, user_screen_names WRITE";
@@ -145,10 +145,10 @@ public class UserScramDbhImpl implements UserScramDbh {
 
     @Override
     public void replaceExistingNamed(Connection dbc,
-                                   ScramDbh scramDbh,
-                                   long userId,
-                                   String newUsername,
-                                   ScramUtils.NewPasswordStringData data) throws SQLException {
+                                     ScramDbh scramDbh,
+                                     long userId,
+                                     String newUsername,
+                                     ScramUtils.NewPasswordStringData data) throws SQLException {
 
         scramDbh.replace(dbc, userId,
                 newUsername,

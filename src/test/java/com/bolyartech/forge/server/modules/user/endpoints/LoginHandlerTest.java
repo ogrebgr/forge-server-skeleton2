@@ -1,22 +1,20 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
-import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
-import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
-import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
-import com.bolyartech.forge.server.session.Session;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
+import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
+import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.BasicResponseCodes;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
 import com.bolyartech.forge.server.route.RequestContext;
+import com.bolyartech.forge.server.session.Session;
 import com.bolyartech.forge.server.session.TestSession;
 import com.bolyartech.scram_sasl.client.ScramClientFunctionality;
 import com.bolyartech.scram_sasl.client.ScramClientFunctionalityImpl;
 import com.bolyartech.scram_sasl.common.ScramException;
 import com.bolyartech.scram_sasl.common.ScramUtils;
-import netscape.javascript.JSObject;
 import org.json.JSONObject;
 import org.junit.Test;
 

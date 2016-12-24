@@ -127,6 +127,19 @@ public class LoginEp extends ForgeDbEndpoint {
     }
 
 
+    private SessionInfo createSessionInfo(Connection dbc, long userId) throws SQLException {
+        ScreenName sn = mScreenNameDbh.loadByUser(dbc, userId);
+
+        SessionInfo si;
+        if (sn != null) {
+            si = new SessionInfo(userId, sn.getScreenName());
+        } else {
+            si = new SessionInfo(userId, null);
+        }
+
+        return si;
+    }
+
     public static class RokLogin {
         @SerializedName("session_ttl")
         public final int sessionTtl;
@@ -141,19 +154,5 @@ public class LoginEp extends ForgeDbEndpoint {
             this.sessionInfo = sessionInfo;
             this.finalMessage = finalMessage;
         }
-    }
-
-
-    private SessionInfo createSessionInfo(Connection dbc, long userId) throws SQLException {
-        ScreenName sn = mScreenNameDbh.loadByUser(dbc, userId);
-
-        SessionInfo si;
-        if (sn != null) {
-            si = new SessionInfo(userId, sn.getScreenName());
-        } else {
-            si = new SessionInfo(userId, null);
-        }
-
-        return si;
     }
 }

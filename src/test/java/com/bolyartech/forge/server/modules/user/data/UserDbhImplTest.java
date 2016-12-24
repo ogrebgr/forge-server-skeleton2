@@ -16,6 +16,7 @@ import static org.junit.Assert.assertTrue;
 public class UserDbhImplTest {
     private DbPool mDbPool;
 
+
     @Before
     public void setup() throws SQLException, ForgeConfigurationException {
         if (mDbPool == null) {

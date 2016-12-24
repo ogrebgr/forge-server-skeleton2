@@ -1,6 +1,5 @@
 package com.bolyartech.forge.server.modules.user.data.scram;
 
-import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.scram_sasl.common.ScramUtils;
 
 import java.security.InvalidKeyException;
@@ -27,7 +26,7 @@ public class UserScramUtils {
                             DEFAULT_ITERATIONS,
                             DEFAULT_DIGEST,
                             DEFAULT_HMAC
-                            )
+                    )
             );
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
             throw new RuntimeException(e);

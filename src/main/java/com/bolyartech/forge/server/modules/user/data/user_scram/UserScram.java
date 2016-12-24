@@ -1,7 +1,7 @@
 package com.bolyartech.forge.server.modules.user.data.user_scram;
 
-import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 
 
 public class UserScram {

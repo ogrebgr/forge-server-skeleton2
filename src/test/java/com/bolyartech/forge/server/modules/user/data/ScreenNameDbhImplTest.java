@@ -18,6 +18,7 @@ import static org.junit.Assert.assertTrue;
 public class ScreenNameDbhImplTest {
     private DbPool mDbPool;
 
+
     @Before
     public void setup() throws SQLException, ForgeConfigurationException {
         if (mDbPool == null) {
@@ -35,6 +36,7 @@ public class ScreenNameDbhImplTest {
         DbTools.deleteAllUsers(dbc);
         dbc.close();
     }
+
 
     @After
     public void after() throws SQLException {

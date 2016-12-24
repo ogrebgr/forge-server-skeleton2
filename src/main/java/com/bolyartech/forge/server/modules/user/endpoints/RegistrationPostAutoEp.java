@@ -4,12 +4,12 @@ import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.misc.Params;
 import com.bolyartech.forge.server.modules.user.ForgeUserDbEndpoint;
 import com.bolyartech.forge.server.modules.user.UserResponseCodes;
+import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
-import com.bolyartech.forge.server.modules.user.data.User;
-import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
@@ -26,6 +26,10 @@ import java.sql.SQLException;
 
 
 public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
+    static final String PARAM_NEW_USERNAME = "new_username";
+    static final String PARAM_NEW_PASSWORD = "new_password";
+    static final String PARAM_SCREEN_NAME = "screen_name";
+
     private final Gson mGson;
 
     private final UserDbh mUserDbh;
@@ -55,9 +59,9 @@ public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
                                 Connection dbc,
                                 User user) throws ResponseException, SQLException {
 
-        String newUsername = ctx.getFromPost("new_username");
-        String newPassword = ctx.getFromPost("new_password");
-        String screenName = ctx.getFromPost("screen_name");
+        String newUsername = ctx.getFromPost(PARAM_NEW_USERNAME);
+        String newPassword = ctx.getFromPost(PARAM_NEW_PASSWORD);
+        String screenName = ctx.getFromPost(PARAM_SCREEN_NAME);
 
         if (!Params.areAllPresent(newUsername, newPassword)) {
             return new MissingParametersResponse();

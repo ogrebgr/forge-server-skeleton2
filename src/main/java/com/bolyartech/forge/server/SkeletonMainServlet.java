@@ -5,9 +5,9 @@ import com.bolyartech.forge.server.db.*;
 import com.bolyartech.forge.server.module.ForgeModule;
 import com.bolyartech.forge.server.modules.main.MainModule;
 import com.bolyartech.forge.server.modules.user.UserModule;
+import com.bolyartech.forge.server.modules.user.data.UserDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbhImpl;
-import com.bolyartech.forge.server.modules.user.data.UserDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbhImpl;
 import org.slf4j.LoggerFactory;
 
