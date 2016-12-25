@@ -19,6 +19,9 @@ import java.sql.SQLException;
 
 
 public class ScreenNameEp extends ForgeUserDbEndpoint {
+    static final String PARAM_SCREEN_NAME = "screen_name";
+
+
     private final ScreenNameDbh mScreenNameDbh;
 
 
@@ -33,7 +36,7 @@ public class ScreenNameEp extends ForgeUserDbEndpoint {
                                 Session session,
                                 Connection dbc, User user) throws ResponseException, SQLException {
 
-        String screenName = ctx.getFromPost("screen_name");
+        String screenName = ctx.getFromPost(PARAM_SCREEN_NAME);
         if (Strings.isNullOrEmpty(screenName)) {
             return new MissingParametersResponse();
         }
