@@ -72,17 +72,17 @@ public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
             if (Strings.isNullOrEmpty(screenName)) {
                 return new MissingParametersResponse("missing screen name");
             } else if (!ScreenName.isValid(screenName)) {
-                return new ForgeResponse("Invalid screen name", UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
+                return new ForgeResponse("Invalid screen name", UserResponseCodes.Errors.INVALID_SCREEN_NAME);
             }
         }
 
 
         if (!User.isValidUsername(newUsername)) {
-            return new ForgeResponse("Invalid username", UserResponseCodes.Errors.INVALID_USERNAME.getCode());
+            return new ForgeResponse("Invalid username", UserResponseCodes.Errors.INVALID_USERNAME);
         }
 
         if (!User.isValidPasswordLength(newPassword)) {
-            return new ForgeResponse("Password too short", UserResponseCodes.Errors.INVALID_PASSWORD.getCode());
+            return new ForgeResponse("Password too short", UserResponseCodes.Errors.INVALID_PASSWORD);
         }
 
 
@@ -101,7 +101,7 @@ public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
         if (rez) {
             return new OkResponse();
         } else {
-            return new ForgeResponse("Scree name already taken", UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
+            return new ForgeResponse("Scree name already taken", UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
         }
     }
 

@@ -1,11 +1,13 @@
 package com.bolyartech.forge.server.modules.user;
 
+import com.bolyartech.forge.server.response.forge.ForgeResponseCode;
+
 import java.util.HashMap;
 import java.util.Map;
 
 
 public class UserResponseCodes {
-    public enum Errors {
+    public enum Errors implements ForgeResponseCode {
         /**
          * Registration related codes
          */
@@ -61,6 +63,7 @@ public class UserResponseCodes {
         }
 
 
+        @Override
         public int getCode() {
             return mCode;
         }

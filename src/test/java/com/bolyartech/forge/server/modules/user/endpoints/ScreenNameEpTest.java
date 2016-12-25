@@ -18,8 +18,6 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
 
 
@@ -36,18 +34,18 @@ public class ScreenNameEpTest {
 
         ScreenNameEp ep = new ScreenNameEp(dbPool, screenNameDbh);
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
 
         when(rc.getFromPost(ScreenNameEp.PARAM_SCREEN_NAME)).thenReturn("new screen name");
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(new ScreenName(11, "sn1"));
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED);
 
 
         when(rc.getFromPost(ScreenNameEp.PARAM_SCREEN_NAME)).thenReturn("1invalid");
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME);
 
         verify(screenNameDbh, times(0)).createNew(any(), anyLong(), any());
 

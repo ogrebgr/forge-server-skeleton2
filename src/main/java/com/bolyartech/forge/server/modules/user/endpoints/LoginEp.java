@@ -84,14 +84,14 @@ public class LoginEp extends ForgeDbEndpoint {
 
                     return new OkResponse(mGson.toJson(new RokLogin(session.getMaxInactiveInterval(), si, finalMsg)));
                 } catch (ScramException e) {
-                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN.getCode());
+                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
                 }
             } else {
                 session.setVar(SessionVars.VAR_SCRAM_FUNC, null);
-                return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN.getCode());
+                return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
             }
         } else {
-            return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN.getCode());
+            return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
         }
     }
 
@@ -116,7 +116,7 @@ public class LoginEp extends ForgeDbEndpoint {
                     session.setVar(SessionVars.VAR_SCRAM_FUNC, scram);
                     return new OkResponse(first);
                 } else {
-                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN.getCode());
+                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);
@@ -139,6 +139,7 @@ public class LoginEp extends ForgeDbEndpoint {
 
         return si;
     }
+
 
     public static class RokLogin {
         @SerializedName("session_ttl")

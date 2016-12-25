@@ -15,7 +15,7 @@ abstract public class ForgeUserEndpoint extends ForgeSecureEndpoint implements F
         if (user != null) {
             return handle(ctx, session, user);
         } else {
-            return new ForgeResponse("Not logged in", UserResponseCodes.Errors.NOT_LOGGED_IN.getCode());
+            return new ForgeResponse("Not logged in", UserResponseCodes.Errors.NOT_LOGGED_IN);
         }
     }
 }

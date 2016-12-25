@@ -54,7 +54,7 @@ public class UserAutoregistrationEpTest {
         Connection dbc = mock(Connection.class);
 
         ForgeResponse forgeResp = ep.handle(req, session, dbc);
-        assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK.getCode());
+        assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK);
 
         Gson gson = new Gson();
         RokResponseAutoregistration obj = gson.fromJson(forgeResp.getPayload(), RokResponseAutoregistration.class);

@@ -22,8 +22,8 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyLong;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -47,19 +47,19 @@ public class RegistrationPostAutoEpTest {
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn(null);
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
 
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(null);
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
     }
 
 
@@ -83,19 +83,19 @@ public class RegistrationPostAutoEpTest {
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_SCREEN_NAME)).thenReturn("1as");
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME);
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("12username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME);
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("somwod");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD);
     }
 
 
@@ -149,7 +149,7 @@ public class RegistrationPostAutoEpTest {
         when(userScramDbh.replaceExisting(any(), any(), any(), anyLong(), any(), any(), any())).thenReturn(false);
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
 
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
     }
 
 

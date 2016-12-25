@@ -13,7 +13,7 @@ public class NotFoundResponse implements Response {
     @Override
     public void toServletResponse(HttpServletResponse resp) throws ResponseException {
         resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
-        PrintWriter pw = null;
+        PrintWriter pw;
         try {
             pw = resp.getWriter();
             pw.print("Not found");

@@ -66,7 +66,7 @@ public class LoginHandlerTest {
         LoginEp ep = new LoginEp(dbPool, scramDbh, mock(ScreenNameDbh.class));
 
         ForgeResponse forgeResp = ep.handle(req, session, dbc);
-        assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK.getCode());
+        assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK);
 
         String clientFinal = clientScram.prepareFinalMessage(password, forgeResp.getPayload());
         when(req.getFromPost(LoginEp.PARAM_STEP)).thenReturn("2");
@@ -74,7 +74,7 @@ public class LoginHandlerTest {
 
 
         ForgeResponse forgeResp2 = ep.handle(req, session, dbc);
-        assertTrue("Not OK", forgeResp2.getResultCode() == BasicResponseCodes.Oks.OK.getCode());
+        assertTrue("Not OK", forgeResp2.getResultCode() == BasicResponseCodes.Oks.OK);
 
         JSONObject jobj = new JSONObject(forgeResp2.getPayload());
         String serverFinal = jobj.getString("final_message");

@@ -27,7 +27,7 @@ abstract public class ForgeUserDbEndpoint extends ForgeDbSecureEndpoint implemen
         if (user != null) {
             return handle(ctx, session, dbc, user);
         } else {
-            return new ForgeResponse("Not logged in", UserResponseCodes.Errors.NOT_LOGGED_IN.getCode());
+            return new ForgeResponse("Not logged in", UserResponseCodes.Errors.NOT_LOGGED_IN);
         }
     }
 }
