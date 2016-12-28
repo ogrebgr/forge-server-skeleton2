@@ -2,6 +2,7 @@ package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
+import com.bolyartech.forge.server.modules.DbTools;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
@@ -56,7 +57,7 @@ public class ScramUserDbhImplTest {
         UserScramDbh dbh = new UserScramDbhImpl();
 
         Connection dbc = mDbPool.getConnection();
-        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "username", "salt",
+        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "salt", "clientKey",
                 "server_key", "stored_key", 11);
 
         UserScram scrNew = dbh.createNew(dbc, userDbh, scramDbh, "username", data);

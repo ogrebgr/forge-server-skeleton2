@@ -1,18 +1,16 @@
-package com.bolyartech.forge.server.modules.user.endpoints;
+package com.bolyartech.forge.server.modules.admin.endpoints;
 
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.handler.ForgeDbEndpoint;
 import com.bolyartech.forge.server.misc.Params;
-import com.bolyartech.forge.server.modules.user.SessionVars;
+import com.bolyartech.forge.server.modules.admin.SessionVars;
+import com.bolyartech.forge.server.modules.admin.data.AdminUser;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserDbh;
+import com.bolyartech.forge.server.modules.admin.data.SessionInfoAdmin;
 import com.bolyartech.forge.server.modules.user.UserResponseCodes;
-import com.bolyartech.forge.server.modules.user.data.SessionInfo;
-import com.bolyartech.forge.server.modules.user.data.User;
-import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
-import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
-import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
 import com.bolyartech.forge.server.response.forge.InvalidParameterValueResponse;
@@ -35,18 +33,16 @@ public class LoginEp extends ForgeDbEndpoint {
     static final String PARAM_STEP = "step";
     static final String PARAM_DATA = "data";
 
-    private final UserDbh mUserDbh;
+    private final AdminUserDbh mAdminUserDbh;
     private final ScramDbh mScramDbh;
-    private final ScreenNameDbh mScreenNameDbh;
 
     private final Gson mGson;
 
 
-    public LoginEp(DbPool dbPool, UserDbh userDbh, ScramDbh scramDbh, ScreenNameDbh screenNameDbh) {
+    public LoginEp(DbPool dbPool, AdminUserDbh adminUserDbh, ScramDbh scramDbh) {
         super(dbPool);
-        mUserDbh = userDbh;
+        mAdminUserDbh = adminUserDbh;
         mScramDbh = scramDbh;
-        mScreenNameDbh = screenNameDbh;
         mGson = new Gson();
     }
 
@@ -82,12 +78,13 @@ public class LoginEp extends ForgeDbEndpoint {
             if (scram.getState() == ScramServerFunctionality.State.PREPARED_FIRST) {
                 try {
                     String finalMsg = scram.prepareFinalMessage(data);
+
                     if (finalMsg != null) {
                         Scram scramData = session.getVar(SessionVars.VAR_SCRAM_DATA);
 
-                        SessionInfo si = createSessionInfo(dbc, scramData.getUser());
+                        AdminUser user = mAdminUserDbh.loadById(dbc, scramData.getUser());
+                        SessionInfoAdmin si = new SessionInfoAdmin(user.getId(), user.isSuperAdmin());
 
-                        User user = mUserDbh.loadById(dbc, scramData.getUser());
                         session.setVar(SessionVars.VAR_USER, user);
                         return new OkResponse(mGson.toJson(new RokLogin(session.getMaxInactiveInterval(), si, finalMsg)));
                     } else {
@@ -137,30 +134,16 @@ public class LoginEp extends ForgeDbEndpoint {
     }
 
 
-    private SessionInfo createSessionInfo(Connection dbc, long userId) throws SQLException {
-        ScreenName sn = mScreenNameDbh.loadByUser(dbc, userId);
-
-        SessionInfo si;
-        if (sn != null) {
-            si = new SessionInfo(userId, sn.getScreenName());
-        } else {
-            si = new SessionInfo(userId, null);
-        }
-
-        return si;
-    }
-
-
     public static class RokLogin {
         @SerializedName("session_ttl")
         public final int sessionTtl;
         @SerializedName("session_info")
-        public final SessionInfo sessionInfo;
+        public final SessionInfoAdmin sessionInfo;
         @SerializedName("final_message")
         public final String finalMessage;
 
 
-        public RokLogin(int sessionTtl, SessionInfo sessionInfo, String finalMessage) {
+        public RokLogin(int sessionTtl, SessionInfoAdmin sessionInfo, String finalMessage) {
             this.sessionTtl = sessionTtl;
             this.sessionInfo = sessionInfo;
             this.finalMessage = finalMessage;

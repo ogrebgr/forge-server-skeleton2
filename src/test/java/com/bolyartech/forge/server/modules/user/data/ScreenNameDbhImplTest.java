@@ -2,6 +2,7 @@ package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
+import com.bolyartech.forge.server.modules.DbTools;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenName;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbhImpl;

@@ -6,6 +6,19 @@ import java.sql.*;
 
 
 public class ScramDbhImpl implements ScramDbh {
+    private static final String USERS_TABLE_NAME = "user_scram";
+
+    private final String mTableName;
+
+
+    protected String getTableName() {
+        return USERS_TABLE_NAME;
+    }
+
+    public ScramDbhImpl() {
+        mTableName = getTableName();
+    }
+
 
     @Override
     public Scram loadByUser(Connection dbc, long user) throws SQLException {
@@ -13,7 +26,9 @@ public class ScramDbhImpl implements ScramDbh {
             throw new IllegalStateException("user <= 0");
         }
 
-        String sql = "SELECT username, salt, server_key, stored_key, iterations FROM user_scram WHERE user = ?";
+        String sql = "SELECT username, salt, server_key, stored_key, iterations " +
+                "FROM " + mTableName +
+                " WHERE user = ?";
         try (PreparedStatement psLoad = dbc.prepareStatement(sql)) {
             psLoad.setLong(1, user);
 
@@ -41,7 +56,9 @@ public class ScramDbhImpl implements ScramDbh {
             throw new IllegalStateException("username empty");
         }
 
-        String sql = "SELECT user, salt, server_key, stored_key, iterations FROM user_scram WHERE username = ?";
+        String sql = "SELECT user, salt, server_key, stored_key, iterations " +
+                "FROM " + mTableName +
+                " WHERE username = ?";
         try (PreparedStatement psLoad = dbc.prepareStatement(sql)) {
             psLoad.setString(1, username);
 
@@ -69,7 +86,9 @@ public class ScramDbhImpl implements ScramDbh {
             throw new IllegalStateException("username empty");
         }
 
-        String sql = "SELECT user FROM user_scram WHERE username_lc = ?";
+        String sql = "SELECT user " +
+                "FROM " + mTableName +
+                " WHERE username_lc = ?";
         try (PreparedStatement psLoad = dbc.prepareStatement(sql)) {
             psLoad.setString(1, username.toLowerCase());
 
@@ -85,14 +104,14 @@ public class ScramDbhImpl implements ScramDbh {
                            int iterations) throws SQLException {
 
         try {
-            String sqlLock = "LOCK TABLES user_scram WRITE";
+            String sqlLock = "LOCK TABLES " + mTableName + " WRITE";
             Statement stLock = dbc.createStatement();
             stLock.execute(sqlLock);
 
             if (!usernameExists(dbc, username)) {
                 Scram ret = new Scram(user, username, salt, serverKey, storedKey, iterations);
 
-                String sql = "INSERT INTO user_scram " +
+                String sql = "INSERT INTO " + mTableName + " " +
                         "(user, username, salt, server_key, stored_key, iterations, username_lc) " +
                         "VALUES (?,?,?,?,?,?,?)";
 
@@ -125,19 +144,22 @@ public class ScramDbhImpl implements ScramDbh {
         Scram ret = new Scram(userId, username, salt, serverKey,
                 storedKey, iterations);
 
-        String sql = "UPDATE user_scram SET " +
+        String sql = "UPDATE " + mTableName + " SET " +
                 "username = ?, " +
                 "salt = ?," +
                 "server_key = ?," +
                 "stored_key = ?," +
-                "iterations = ? " +
-                "WHERE user = user";
+                "iterations = ?, " +
+                "username_lc = ? " +
+                "WHERE user = ?";
         try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {
             psUpdate.setString(1, username);
             psUpdate.setString(2, salt);
             psUpdate.setString(3, serverKey);
             psUpdate.setString(4, storedKey);
             psUpdate.setInt(5, iterations);
+            psUpdate.setString(6, username.toLowerCase());
+            psUpdate.setLong(7, userId);
             psUpdate.executeUpdate();
         }
 

@@ -7,10 +7,7 @@ import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
-import com.bolyartech.forge.server.modules.user.endpoints.AutoregistrationEp;
-import com.bolyartech.forge.server.modules.user.endpoints.LoginEp;
-import com.bolyartech.forge.server.modules.user.endpoints.LogoutEp;
-import com.bolyartech.forge.server.modules.user.endpoints.RegistrationEp;
+import com.bolyartech.forge.server.modules.user.endpoints.*;
 import com.bolyartech.forge.server.route.Route;
 import com.bolyartech.forge.server.route.RouteImpl;
 
@@ -52,9 +49,13 @@ public final class UserModule implements ForgeModule {
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/autoregister",
                 new AutoregistrationEp(mDbPool, mUserDbh, mScramDbh, mUserScramDbh)));
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/login",
-                new LoginEp(mDbPool, mScramDbh, mScreenNameDbh)));
+                new LoginEp(mDbPool, mUserDbh, mScramDbh, mScreenNameDbh)));
         ret.add(new RouteImpl(HttpMethod.POST, "/api/user/register",
                 new RegistrationEp(mDbPool, mUserDbh, mScramDbh, mUserScramDbh, mScreenNameDbh)));
+        ret.add(new RouteImpl(HttpMethod.POST, "/api/user/register_postauto",
+                new RegistrationPostAutoEp(mDbPool, mUserDbh, mScramDbh, mUserScramDbh, mScreenNameDbh)));
+        ret.add(new RouteImpl(HttpMethod.POST, "/api/user/screen_name",
+                new ScreenNameEp(mDbPool, mScreenNameDbh)));
         ret.add(new RouteImpl(HttpMethod.GET, "/api/user/logout",
                 new LogoutEp()));
 

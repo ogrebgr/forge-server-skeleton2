@@ -22,6 +22,5 @@ public class NotFoundResponse implements Response {
         } catch (IOException e) {
             throw new ResponseException(e);
         }
-
     }
 }

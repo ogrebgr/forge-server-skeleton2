@@ -21,11 +21,10 @@ public class UserResponseCodes {
         /**
          * Login related codes
          */
-        MALFORMED_LOGIN(-12), // when username or password or both are missing from the POST
-        INVALID_LOGIN(-13), // user + password does not match valid account
-        NOT_LOGGED_IN(-14), // not logged in
+        INVALID_LOGIN(-12), // user + password does not match valid account
+        NOT_LOGGED_IN(-13), // not logged in
 
-        NO_ENOUGH_PRIVILEGES(-15),
+        NO_ENOUGH_PRIVILEGES(-14),
 
         INVALID_SCREEN_NAME(-50),
         SCREEN_NAME_EXISTS(-51),

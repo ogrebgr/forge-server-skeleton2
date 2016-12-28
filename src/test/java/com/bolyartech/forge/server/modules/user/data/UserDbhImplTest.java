@@ -3,6 +3,7 @@ package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
+import com.bolyartech.forge.server.modules.DbTools;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;

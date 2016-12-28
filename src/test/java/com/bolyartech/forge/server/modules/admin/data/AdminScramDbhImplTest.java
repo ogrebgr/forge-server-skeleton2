@@ -1,8 +1,9 @@
-package com.bolyartech.forge.server.modules.user.data;
+package com.bolyartech.forge.server.modules.admin.data;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
 import com.bolyartech.forge.server.modules.DbTools;
+import com.bolyartech.forge.server.modules.user.data.*;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
@@ -17,8 +18,7 @@ import java.sql.SQLException;
 import static org.junit.Assert.assertTrue;
 
 
-@SuppressWarnings("ConstantConditions")
-public class ScramDbhImplTest {
+public class AdminScramDbhImplTest {
     private DbPool mDbPool;
 
 
@@ -45,7 +45,7 @@ public class ScramDbhImplTest {
     @After
     public void after() throws SQLException {
         Connection dbc = mDbPool.getConnection();
-        DbTools.deleteAllScrams(dbc);
+        DbTools.deleteAllAdminScrams(dbc);
         dbc.close();
     }
 

@@ -1,6 +1,7 @@
 package com.bolyartech.forge.server.modules.user.endpoints;
 
 import com.bolyartech.forge.server.db.DbPool;
+import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
@@ -50,6 +51,7 @@ public class LoginHandlerTest {
 
         DbPool dbPool = mock(DbPool.class);
 
+        UserDbh userDbh = mock(UserDbh.class);
         ScramDbh scramDbh = mock(ScramDbh.class);
         when(scramDbh.loadByUsername(dbc, username)).thenReturn(new Scram(111,
                 username,
@@ -63,7 +65,7 @@ public class LoginHandlerTest {
 
         Session session = new TestSession();
 
-        LoginEp ep = new LoginEp(dbPool, scramDbh, mock(ScreenNameDbh.class));
+        LoginEp ep = new LoginEp(dbPool, userDbh, scramDbh, mock(ScreenNameDbh.class));
 
         ForgeResponse forgeResp = ep.handle(req, session, dbc);
         assertTrue("Not OK", forgeResp.getResultCode() == BasicResponseCodes.Oks.OK);

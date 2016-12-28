@@ -3,6 +3,10 @@ package com.bolyartech.forge.server;
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
 import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.modules.admin.AdminModule;
+import com.bolyartech.forge.server.modules.admin.data.AdminScramDbhImpl;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserDbhImpl;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserScramDbhImpl;
 import com.bolyartech.forge.server.modules.main.MainModule;
 import com.bolyartech.forge.server.modules.user.UserModule;
 import com.bolyartech.forge.server.modules.user.data.UserDbhImpl;
@@ -39,6 +43,8 @@ public class SkeletonMainServlet extends MainServlet {
                 new UserDbhImpl(),
                 new ScramDbhImpl(),
                 new ScreenNameDbhImpl()));
+        ret.add(new AdminModule(mDbPool, new AdminUserDbhImpl(), new AdminScramDbhImpl(), new AdminUserScramDbhImpl()));
+
         return ret;
     }
 
