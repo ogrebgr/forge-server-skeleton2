@@ -34,18 +34,18 @@ public class ScreenNameEpTest {
 
         ScreenNameEp ep = new ScreenNameEp(dbPool, screenNameDbh);
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
 
         when(rc.getFromPost(ScreenNameEp.PARAM_SCREEN_NAME)).thenReturn("new screen name");
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(new ScreenName(11, "sn1"));
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED.getCode());
 
 
         when(rc.getFromPost(ScreenNameEp.PARAM_SCREEN_NAME)).thenReturn("1invalid");
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
 
         verify(screenNameDbh, times(0)).createNew(any(), anyLong(), any());
 

@@ -14,7 +14,6 @@ public class UserScramUtils {
 
 
     public static ScramUtils.NewPasswordStringData createPasswordData(String password) {
-        ScramUtils.NewPasswordStringData data = null;
         try {
             SecureRandom random = new SecureRandom();
             byte[] salt = new byte[24];

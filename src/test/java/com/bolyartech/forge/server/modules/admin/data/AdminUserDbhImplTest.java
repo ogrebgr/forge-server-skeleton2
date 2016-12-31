@@ -55,7 +55,7 @@ public class AdminUserDbhImplTest {
         AdminUserDbhImpl impl = new AdminUserDbhImpl();
         AdminUser newUser = impl.createNew(dbc, false, "gele");
 
-        AdminUser changed = impl.changeName(dbc, newUser, "trytkata");
+        boolean changed = impl.changeName(dbc, newUser, "trytkata");
 
         AdminUser loadedUser = impl.loadById(dbc, newUser.getId());
 
@@ -70,7 +70,7 @@ public class AdminUserDbhImplTest {
         AdminUserDbhImpl impl = new AdminUserDbhImpl();
         AdminUser newUser = impl.createNew(dbc, false, "gele");
 
-        AdminUser changed = impl.changeDisabled(dbc, newUser, true);
+        boolean changed = impl.changeDisabled(dbc, newUser.getId(), true);
 
         AdminUser loadedUser = impl.loadById(dbc, newUser.getId());
 

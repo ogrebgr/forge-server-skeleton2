@@ -47,19 +47,19 @@ public class RegistrationPostAutoEpTest {
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn(null);
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
 
         when(screenNameDbh.loadByUser(any(), anyLong())).thenReturn(null);
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn(null);
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
     }
 
 
@@ -83,19 +83,19 @@ public class RegistrationPostAutoEpTest {
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_SCREEN_NAME)).thenReturn("1as");
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("12username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME.getCode());
 
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationPostAutoEp.PARAM_NEW_PASSWORD)).thenReturn("somwod");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc, user);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD.getCode());
     }
 
 
@@ -149,7 +149,7 @@ public class RegistrationPostAutoEpTest {
         when(userScramDbh.replaceExisting(any(), any(), any(), anyLong(), any(), any(), any())).thenReturn(false);
         ForgeResponse resp = ep.handle(rc, session, dbc, user);
 
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
     }
 
 

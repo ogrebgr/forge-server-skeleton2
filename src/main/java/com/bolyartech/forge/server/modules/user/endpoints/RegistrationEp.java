@@ -66,19 +66,19 @@ public class RegistrationEp extends ForgeDbSecureEndpoint {
 
 
         if (!Params.areAllPresent(username, password, screenName)) {
-            return new MissingParametersResponse();
+            return MissingParametersResponse.getInstance();
         }
 
         if (!User.isValidUsername(username)) {
-            return new ForgeResponse("Invalid username", UserResponseCodes.Errors.INVALID_USERNAME);
+            return new ForgeResponse(UserResponseCodes.Errors.INVALID_USERNAME, "Invalid username");
         }
 
         if (!User.isValidPasswordLength(password)) {
-            return new ForgeResponse("Password too short", UserResponseCodes.Errors.INVALID_PASSWORD);
+            return new ForgeResponse(UserResponseCodes.Errors.INVALID_PASSWORD, "Password too short");
         }
 
         if (!ScreenName.isValid(screenName)) {
-            return new ForgeResponse("Invalid screen name", UserResponseCodes.Errors.INVALID_SCREEN_NAME);
+            return new ForgeResponse(UserResponseCodes.Errors.INVALID_SCREEN_NAME, "Invalid screen name");
         }
 
 
@@ -99,9 +99,9 @@ public class RegistrationEp extends ForgeDbSecureEndpoint {
                             si
                     )));
         } else if (rez.usernameExist) {
-            return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.USERNAME_EXISTS);
+            return new ForgeResponse(UserResponseCodes.Errors.USERNAME_EXISTS, "Invalid Login");
         } else {
-            return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
+            return new ForgeResponse(UserResponseCodes.Errors.SCREEN_NAME_EXISTS, "screen name taken");
         }
     }
 }

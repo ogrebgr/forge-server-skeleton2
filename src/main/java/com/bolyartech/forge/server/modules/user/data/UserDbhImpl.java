@@ -1,14 +1,14 @@
 package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.db.DbUtils;
+import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
 import org.slf4j.LoggerFactory;
 
 import java.sql.*;
+import java.util.List;
 
 
 public class UserDbhImpl implements UserDbh {
-    private final org.slf4j.Logger sLogger = LoggerFactory.getLogger(this.getClass());
-
 
     @Override
     public User loadById(Connection dbc, long id) throws SQLException {
@@ -49,18 +49,16 @@ public class UserDbhImpl implements UserDbh {
 
 
     @Override
-    public User changeDisabled(Connection dbc, User user, boolean disabled) throws SQLException {
+    public boolean changeDisabled(Connection dbc, long userId, boolean disabled) throws SQLException {
         DbUtils.ensureOperationalDbc(dbc);
-        if (user.getId() == 0) {
-            throw new IllegalArgumentException("User is new, id = 0");
-        }
 
         String sql = "UPDATE users SET is_disabled = ? WHERE id = ?";
         try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {
-            psUpdate.setInt(1, user.isDisabled() ? 1 : 0);
-            psUpdate.setLong(2, user.getId());
-            psUpdate.executeUpdate();
-            return new User(user.getId(), disabled, user.getLoginType());
+            psUpdate.setInt(1, disabled ? 1 : 0);
+            psUpdate.setLong(2, userId);
+            int count = psUpdate.executeUpdate();
+
+            return count == 1;
         }
     }
 
@@ -98,5 +96,15 @@ public class UserDbhImpl implements UserDbh {
                 return rs.next();
             }
         }
+    }
+
+
+    @Override
+    public List<UserScram> list(Connection dbc, long idGreaterThan, int limit) throws SQLException {
+        DbUtils.ensureOperationalDbc(dbc);
+
+        String sql = "SELECT users.id";
+
+        return null;
     }
 }

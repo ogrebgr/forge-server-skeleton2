@@ -78,10 +78,10 @@ public class UserDbhImplTest {
 
         Connection dbc = mDbPool.getConnection();
         User userNew = userDbh.createNew(dbc, true, UserLoginType.GOOGLE);
-        User changed = userDbh.changeDisabled(dbc, userNew, false);
+        boolean changed = userDbh.changeDisabled(dbc, userNew.getId(), false);
         dbc.close();
 
-        assertTrue("not changed", !changed.isDisabled());
+        assertTrue("not changed", changed);
     }
 
 

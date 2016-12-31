@@ -32,8 +32,7 @@ public class UserScramDbhImpl implements UserScramDbh {
                 try {
                     dbc.setAutoCommit(false);
                     User user = userDbh.createNew(dbc, false, UserLoginType.SCRAM);
-                    Scram scram = scramDbh.createNew(dbc, user.getId(), username, data.salt, data.serverKey,
-                            data.storedKey, data.iterations);
+                    Scram scram = scramDbh.createNew(dbc, user.getId(), username, data);
                     dbc.commit();
                     return new UserScram(user, scram);
                 } catch (SQLException e) {
@@ -82,8 +81,7 @@ public class UserScramDbhImpl implements UserScramDbh {
                 dbc.setAutoCommit(false);
 
                 User user = userDbh.createNew(dbc, false, UserLoginType.SCRAM);
-                Scram scram = scramDbh.createNew(dbc, user.getId(), username, data.salt, data.serverKey,
-                        data.storedKey, data.iterations);
+                Scram scram = scramDbh.createNew(dbc, user.getId(), username, data);
 
                 screenNameDbh.createNew(dbc, user.getId(), screenName);
                 dbc.commit();
@@ -152,7 +150,6 @@ public class UserScramDbhImpl implements UserScramDbh {
 
         scramDbh.replace(dbc, userId,
                 newUsername,
-                data.salt, data.serverKey, data.storedKey,
-                UserScramUtils.DEFAULT_ITERATIONS);
+                data);
     }
 }

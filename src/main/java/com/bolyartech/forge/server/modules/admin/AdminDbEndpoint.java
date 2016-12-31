@@ -1,8 +1,9 @@
-package com.bolyartech.forge.server.modules.user;
+package com.bolyartech.forge.server.modules.admin;
 
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.handler.ForgeDbSecureEndpoint;
-import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.admin.data.AdminUser;
+import com.bolyartech.forge.server.modules.user.UserResponseCodes;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;
 import com.bolyartech.forge.server.route.RequestContext;
@@ -12,10 +13,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 
-abstract public class ForgeUserDbEndpoint extends ForgeDbSecureEndpoint implements ForgeUserDbEndpointInterface {
+abstract public class AdminDbEndpoint extends ForgeDbSecureEndpoint implements AdminDbEndpointInterface {
 
-
-    public ForgeUserDbEndpoint(DbPool dbPool) {
+    public AdminDbEndpoint(DbPool dbPool) {
         super(dbPool);
     }
 
@@ -23,7 +23,7 @@ abstract public class ForgeUserDbEndpoint extends ForgeDbSecureEndpoint implemen
     @Override
     public ForgeResponse handle(RequestContext ctx, Session session, Connection dbc)
             throws ResponseException, SQLException {
-        User user = session.getVar(SessionVars.VAR_USER);
+        AdminUser user = session.getVar(SessionVars.VAR_USER);
         if (user != null) {
             return handle(ctx, session, dbc, user);
         } else {

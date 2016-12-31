@@ -42,19 +42,19 @@ public class RegistrationEpTest {
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         ForgeResponse resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
 
         when(rc.getFromPost(RegistrationEp.PARAM_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn(null);
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
 
         when(rc.getFromPost(RegistrationEp.PARAM_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn(null);
         resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS);
+        assertTrue("Unexpected code", resp.getResultCode() == BasicResponseCodes.Errors.MISSING_PARAMETERS.getCode());
     }
 
 
@@ -70,19 +70,19 @@ public class RegistrationEpTest {
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         ForgeResponse resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_USERNAME.getCode());
 
         when(rc.getFromPost(RegistrationEp.PARAM_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn("somwod");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("some screen name");
         resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_PASSWORD.getCode());
 
         when(rc.getFromPost(RegistrationEp.PARAM_USERNAME)).thenReturn("username");
         when(rc.getFromPost(RegistrationEp.PARAM_PASSWORD)).thenReturn("some_password");
         when(rc.getFromPost(RegistrationEp.PARAM_SCREEN_NAME)).thenReturn("so");
         resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.INVALID_SCREEN_NAME.getCode());
     }
 
 
@@ -109,7 +109,7 @@ public class RegistrationEpTest {
         when(userScramDbh.createNewNamed(any(), any(), any(), any(), any(), any(), any())).thenReturn(newNamedResult);
 
         ForgeResponse resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.USERNAME_EXISTS);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.USERNAME_EXISTS.getCode());
     }
 
 
@@ -137,7 +137,7 @@ public class RegistrationEpTest {
         when(userScramDbh.createNewNamed(any(), any(), any(), any(), any(), any(), any())).thenReturn(newNamedResult);
 
         ForgeResponse resp = ep.handle(rc, session, dbc);
-        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
+        assertTrue("Unexpected code", resp.getResultCode() == UserResponseCodes.Errors.SCREEN_NAME_EXISTS.getCode());
     }
 
 

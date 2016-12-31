@@ -71,7 +71,7 @@ public class LoginEp extends ForgeDbEndpoint {
                 return new InvalidParameterValueResponse("step not integer");
             }
         } else {
-            return new MissingParametersResponse();
+            return MissingParametersResponse.getInstance();
         }
     }
 
@@ -91,17 +91,17 @@ public class LoginEp extends ForgeDbEndpoint {
                         session.setVar(SessionVars.VAR_USER, user);
                         return new OkResponse(mGson.toJson(new RokLogin(session.getMaxInactiveInterval(), si, finalMsg)));
                     } else {
-                        return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
+                        return new ForgeResponse(UserResponseCodes.Errors.INVALID_LOGIN, "Invalid Login");
                     }
                 } catch (ScramException e) {
-                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
+                    return new ForgeResponse(UserResponseCodes.Errors.INVALID_LOGIN, "Invalid Login");
                 }
             } else {
                 session.setVar(SessionVars.VAR_SCRAM_FUNC, null);
-                return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
+                return new ForgeResponse(UserResponseCodes.Errors.INVALID_LOGIN, "Invalid Login");
             }
         } else {
-            return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
+            return new ForgeResponse(UserResponseCodes.Errors.INVALID_LOGIN, "Invalid Login");
         }
     }
 
@@ -126,7 +126,7 @@ public class LoginEp extends ForgeDbEndpoint {
                     session.setVar(SessionVars.VAR_SCRAM_FUNC, scram);
                     return new OkResponse(first);
                 } else {
-                    return new ForgeResponse("Invalid Login", UserResponseCodes.Errors.INVALID_LOGIN);
+                    return new ForgeResponse(UserResponseCodes.Errors.INVALID_LOGIN, "Invalid Login");
                 }
             } catch (SQLException e) {
                 throw new RuntimeException(e);

@@ -51,7 +51,7 @@ public class AdminUserDbhImpl implements AdminUserDbh {
 
 
     @Override
-    public AdminUser changeName(Connection dbc, AdminUser user, String newName) throws SQLException {
+    public boolean changeName(Connection dbc, AdminUser user, String newName) throws SQLException {
         if (!AdminUser.isValidName(newName)) {
             throw new IllegalArgumentException("Invalid name: " + newName);
         }
@@ -61,20 +61,23 @@ public class AdminUserDbhImpl implements AdminUserDbh {
             psUpdate.setString(1, newName);
             psUpdate.setLong(2, user.getId());
             psUpdate.executeUpdate();
-            return new AdminUser(user.getId(), user.isDisabled(), user.isSuperAdmin(), newName);
+            int count = psUpdate.executeUpdate();
+
+            return count == 1;
         }
     }
 
 
     @Override
-    public AdminUser changeDisabled(Connection dbc, AdminUser user, boolean isDisabled) throws SQLException {
+    public boolean changeDisabled(Connection dbc, long userId, boolean isDisabled) throws SQLException {
 
         String sql = "UPDATE admin_users SET is_disabled = ? WHERE id = ?";
         try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {
             psUpdate.setInt(1, isDisabled ? 1 : 0);
-            psUpdate.setLong(2, user.getId());
-            psUpdate.executeUpdate();
-            return new AdminUser(user.getId(), isDisabled, user.isSuperAdmin(), user.getName());
+            psUpdate.setLong(2, userId);
+            int count = psUpdate.executeUpdate();
+
+            return count == 1;
         }
     }
 

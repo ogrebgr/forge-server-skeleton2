@@ -6,6 +6,7 @@ import com.bolyartech.forge.server.modules.DbTools;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
+import com.bolyartech.scram_sasl.common.ScramUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,11 +59,14 @@ public class ScramDbhImplTest {
         Connection dbc = mDbPool.getConnection();
         User userNew = userDbh.createNew(dbc, true, UserLoginType.GOOGLE);
 
-        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", "salt", "server_key", "stored_key", 11);
+        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "salt", "clientKey",
+                "server_key", "stored_key", 11);
+
+        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", data);
         Scram scrLoaded = dbh.loadByUser(dbc, userNew.getId());
         assertTrue("Created and loaded are different", scrLoaded.equals(scrNew));
 
-        Scram scrNew2 = dbh.createNew(dbc, userNew.getId(), "username", "salt", "server_key", "stored_key", 11);
+        Scram scrNew2 = dbh.createNew(dbc, userNew.getId(), "username", data);
         assertTrue("duplicate username used", scrNew2 == null);
 
         dbc.close();
@@ -77,7 +81,10 @@ public class ScramDbhImplTest {
         Connection dbc = mDbPool.getConnection();
         User userNew = userDbh.createNew(dbc, true, UserLoginType.GOOGLE);
 
-        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", "salt", "server_key", "stored_key", 11);
+        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "salt", "clientKey",
+                "server_key", "stored_key", 11);
+
+        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", data);
         Scram scrLoaded = dbh.loadByUsername(dbc, "username");
         dbc.close();
 
@@ -93,8 +100,13 @@ public class ScramDbhImplTest {
         Connection dbc = mDbPool.getConnection();
         User userNew = userDbh.createNew(dbc, true, UserLoginType.GOOGLE);
 
-        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", "salt", "server_key", "stored_key", 11);
-        Scram scrChanged = dbh.replace(dbc, userNew.getId(), "newusername", "salt2", "server_key2", "stored_key2", 12);
+        ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "salt", "clientKey",
+                "server_key", "stored_key", 11);
+        ScramUtils.NewPasswordStringData data2 = new ScramUtils.NewPasswordStringData("salted2", "salt2", "clientKey2",
+                "server_key2", "stored_key2", 11);
+
+        Scram scrNew = dbh.createNew(dbc, userNew.getId(), "username", data);
+        Scram scrChanged = dbh.replace(dbc, userNew.getId(), "newusername", data2);
         Scram scrLoaded = dbh.loadByUsername(dbc, "newusername");
         dbc.close();
 

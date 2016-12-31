@@ -28,8 +28,7 @@ public class AdminUserScramDbhImpl implements AdminUserScramDbh {
                 try {
                     dbc.setAutoCommit(false);
                     AdminUser user = adminUserDbh.createNew(dbc, isSuperAdmin, name);
-                    Scram scram = scramDbh.createNew(dbc, user.getId(), username, data.salt, data.serverKey,
-                            data.storedKey, data.iterations);
+                    Scram scram = scramDbh.createNew(dbc, user.getId(), username, data);
                     dbc.commit();
                     return new AdminUserScram(user, scram);
                 } catch (SQLException e) {

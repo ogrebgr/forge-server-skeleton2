@@ -38,24 +38,23 @@ public class ScreenNameEp extends ForgeUserDbEndpoint {
 
         String screenName = ctx.getFromPost(PARAM_SCREEN_NAME);
         if (Strings.isNullOrEmpty(screenName)) {
-            return new MissingParametersResponse();
+            return MissingParametersResponse.getInstance();
         }
 
         ScreenName existing = mScreenNameDbh.loadByUser(dbc, user.getId());
         if (existing != null) {
-            return new ForgeResponse("Password too short",
-                    UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED);
+            return new ForgeResponse(UserResponseCodes.Errors.SCREEN_NAME_CHANGE_NOT_SUPPORTED, "Password too short");
         }
 
         if (!ScreenName.isValid(screenName)) {
-            return new ForgeResponse("Invalid screen name", UserResponseCodes.Errors.INVALID_SCREEN_NAME);
+            return new ForgeResponse(UserResponseCodes.Errors.INVALID_SCREEN_NAME, "Invalid screen name");
         }
 
         ScreenName sn = mScreenNameDbh.createNew(dbc, user.getId(), screenName);
         if (sn != null) {
             return new OkResponse();
         } else {
-            return new ForgeResponse("Scree name already taken", UserResponseCodes.Errors.SCREEN_NAME_EXISTS);
+            return new ForgeResponse(UserResponseCodes.Errors.SCREEN_NAME_EXISTS, "Scree name already taken");
         }
     }
 }

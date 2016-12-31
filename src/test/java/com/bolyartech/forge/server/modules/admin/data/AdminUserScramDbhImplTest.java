@@ -50,7 +50,6 @@ public class AdminUserScramDbhImplTest {
         ScramUtils.NewPasswordStringData data = new ScramUtils.NewPasswordStringData("salted", "salt", "clientKey",
                 "server_key", "stored_key", 11);
 
-
         AdminUserScramDbhImpl impl = new AdminUserScramDbhImpl();
         AdminUserScram obj = impl.createNew(dbc, adminUserDbh, scramDbh, true, "gele", "geleto", data);
 

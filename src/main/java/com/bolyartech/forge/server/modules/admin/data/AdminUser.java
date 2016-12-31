@@ -6,6 +6,8 @@ import java.util.Objects;
 
 
 public final class AdminUser {
+    private static final int MIN_PASSWORD_LENGTH = 7;
+
     private final long mId;
     private final boolean mIsDisabled;
     private final boolean mIsSuperAdmin;
@@ -59,5 +61,14 @@ public final class AdminUser {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mIsDisabled, mIsSuperAdmin, mName);
+    }
+
+
+    public static boolean isValidPasswordLength(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("password is null");
+        }
+
+        return password.length() >= MIN_PASSWORD_LENGTH;
     }
 }

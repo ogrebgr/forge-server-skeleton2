@@ -1,5 +1,6 @@
 package com.bolyartech.forge.server.modules.user.data.scram;
 
+import com.bolyartech.scram_sasl.common.ScramUtils;
 import com.google.common.base.Strings;
 
 import java.sql.*;
@@ -100,8 +101,8 @@ public class ScramDbhImpl implements ScramDbh {
 
 
     @Override
-    public Scram createNew(Connection dbc, long user, String username, String salt, String serverKey, String storedKey,
-                           int iterations) throws SQLException {
+    public Scram createNew(Connection dbc, long user, String username, ScramUtils.NewPasswordStringData passwordData)
+            throws SQLException {
 
         try {
             String sqlLock = "LOCK TABLES " + mTableName + " WRITE";
@@ -109,7 +110,8 @@ public class ScramDbhImpl implements ScramDbh {
             stLock.execute(sqlLock);
 
             if (!usernameExists(dbc, username)) {
-                Scram ret = new Scram(user, username, salt, serverKey, storedKey, iterations);
+                Scram ret = new Scram(user, username, passwordData.salt, passwordData.serverKey,
+                        passwordData.storedKey, passwordData.iterations);
 
                 String sql = "INSERT INTO " + mTableName + " " +
                         "(user, username, salt, server_key, stored_key, iterations, username_lc) " +
@@ -118,10 +120,10 @@ public class ScramDbhImpl implements ScramDbh {
                 try (PreparedStatement psInsert = dbc.prepareStatement(sql)) {
                     psInsert.setLong(1, user);
                     psInsert.setString(2, username);
-                    psInsert.setString(3, salt);
-                    psInsert.setString(4, serverKey);
-                    psInsert.setString(5, storedKey);
-                    psInsert.setInt(6, iterations);
+                    psInsert.setString(3, passwordData.salt);
+                    psInsert.setString(4, passwordData.serverKey);
+                    psInsert.setString(5, passwordData.storedKey);
+                    psInsert.setInt(6, passwordData.iterations);
                     psInsert.setString(7, username.toLowerCase());
                     psInsert.executeUpdate();
                 }
@@ -139,10 +141,11 @@ public class ScramDbhImpl implements ScramDbh {
 
 
     @Override
-    public Scram replace(Connection dbc, long userId, String username, String salt, String serverKey, String storedKey, int iterations) throws SQLException {
+    public Scram replace(Connection dbc, long userId, String username, ScramUtils.NewPasswordStringData passwordData)
+            throws SQLException {
 
-        Scram ret = new Scram(userId, username, salt, serverKey,
-                storedKey, iterations);
+        Scram ret = new Scram(userId, username, passwordData.salt, passwordData.serverKey,
+                passwordData.storedKey, passwordData.iterations);
 
         String sql = "UPDATE " + mTableName + " SET " +
                 "username = ?, " +
@@ -154,15 +157,39 @@ public class ScramDbhImpl implements ScramDbh {
                 "WHERE user = ?";
         try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {
             psUpdate.setString(1, username);
-            psUpdate.setString(2, salt);
-            psUpdate.setString(3, serverKey);
-            psUpdate.setString(4, storedKey);
-            psUpdate.setInt(5, iterations);
+            psUpdate.setString(2, passwordData.salt);
+            psUpdate.setString(3, passwordData.serverKey);
+            psUpdate.setString(4, passwordData.storedKey);
+            psUpdate.setInt(5, passwordData.iterations);
             psUpdate.setString(6, username.toLowerCase());
             psUpdate.setLong(7, userId);
             psUpdate.executeUpdate();
         }
 
         return ret;
+    }
+
+
+    @Override
+    public boolean changePassword(Connection dbc, long userId, ScramUtils.NewPasswordStringData passwordData)
+            throws SQLException {
+
+        String sql = "UPDATE " + mTableName + " SET " +
+                "salt = ?," +
+                "server_key = ?," +
+                "stored_key = ?," +
+                "iterations = ?, " +
+                "WHERE user = ?";
+
+        try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {
+            psUpdate.setString(1, passwordData.salt);
+            psUpdate.setString(2, passwordData.serverKey);
+            psUpdate.setString(3, passwordData.storedKey);
+            psUpdate.setInt(4, passwordData.iterations);
+            psUpdate.setLong(5, userId);
+            int count = psUpdate.executeUpdate();
+
+            return count == 1;
+        }
     }
 }
