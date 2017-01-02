@@ -1,21 +1,19 @@
 package com.bolyartech.forge.server.modules.admin;
 
-import com.bolyartech.forge.server.HttpMethod;
 import com.bolyartech.forge.server.db.DbPool;
-import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.modules.admin.data.*;
 import com.bolyartech.forge.server.modules.admin.endpoints.*;
 import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.route.PostRoute;
-import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.route.Route;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class AdminModule implements ForgeModule {
+public class AdminModule implements HttpModule {
     private static final String DEFAULT_PATH_PREFIX = "/api/admin/";
 
     private static final String MODULE_SYSTEM_NAME = "admin";

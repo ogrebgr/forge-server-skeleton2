@@ -2,7 +2,7 @@ package com.bolyartech.forge.server;
 
 import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
-import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.modules.admin.AdminModule;
 import com.bolyartech.forge.server.modules.admin.data.AdminScramDbhImpl;
 import com.bolyartech.forge.server.modules.admin.data.AdminUserDbhImpl;
@@ -36,8 +36,8 @@ public class SkeletonMainServlet extends MainServlet {
 
 
     @Override
-    protected List<ForgeModule> getModules() {
-        List<ForgeModule> ret = new ArrayList<>();
+    protected List<HttpModule> getModules() {
+        List<HttpModule> ret = new ArrayList<>();
         ret.add(new MainModule());
         ret.add(new UserModule(mDbPool,
                 new UserScramDbhImpl(),

@@ -1,22 +1,20 @@
 package com.bolyartech.forge.server.modules.user;
 
-import com.bolyartech.forge.server.HttpMethod;
 import com.bolyartech.forge.server.db.DbPool;
-import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.screen_name.ScreenNameDbh;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScramDbh;
 import com.bolyartech.forge.server.modules.user.endpoints.*;
 import com.bolyartech.forge.server.route.PostRoute;
-import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.route.Route;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public final class UserModule implements ForgeModule {
+public final class UserModule implements HttpModule {
     private static final String DEFAULT_PATH_PREFIX = "/api/user/";
 
     private static final String MODULE_SYSTEM_NAME = "user";

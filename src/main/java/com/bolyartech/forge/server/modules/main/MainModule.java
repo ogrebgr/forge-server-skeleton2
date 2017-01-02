@@ -5,7 +5,7 @@ import com.bolyartech.forge.server.handler.StaticFileHandler;
 import com.bolyartech.forge.server.misc.MimeTypeResolver;
 import com.bolyartech.forge.server.misc.MimeTypeResolverImpl;
 import com.bolyartech.forge.server.misc.TemplateEngineFactory;
-import com.bolyartech.forge.server.module.ForgeModule;
+import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.route.RouteImpl;
 import com.bolyartech.forge.server.route.Route;
 import com.bolyartech.forge.server.tple.velocity.VelocityTemplateEngineFactory;
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public final class MainModule implements ForgeModule {
+public final class MainModule implements HttpModule {
     private static final String MODULE_SYSTEM_NAME = "main";
     private static final int MODULE_VERSION_CODE = 1;
     private static final String MODULE_VERSION_NAME = "1.0.0";
