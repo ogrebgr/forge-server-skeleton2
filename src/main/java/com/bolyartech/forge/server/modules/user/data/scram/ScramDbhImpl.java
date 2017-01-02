@@ -12,10 +12,6 @@ public class ScramDbhImpl implements ScramDbh {
     private final String mTableName;
 
 
-    protected String getTableName() {
-        return USERS_TABLE_NAME;
-    }
-
     public ScramDbhImpl() {
         mTableName = getTableName();
     }
@@ -191,5 +187,10 @@ public class ScramDbhImpl implements ScramDbh {
 
             return count == 1;
         }
+    }
+
+
+    protected String getTableName() {
+        return USERS_TABLE_NAME;
     }
 }

@@ -72,7 +72,7 @@ public class RegistrationPostAutoEp extends ForgeUserDbEndpoint {
             if (Strings.isNullOrEmpty(screenName)) {
                 return new MissingParametersResponse("missing screen name");
             } else if (!ScreenName.isValid(screenName)) {
-                return new ForgeResponse(UserResponseCodes.Errors.INVALID_SCREEN_NAME,"Invalid screen name");
+                return new ForgeResponse(UserResponseCodes.Errors.INVALID_SCREEN_NAME, "Invalid screen name");
             }
         }
 

@@ -2,7 +2,6 @@ package com.bolyartech.forge.server.modules.user.data;
 
 import com.bolyartech.forge.server.db.DbUtils;
 import com.bolyartech.forge.server.modules.user.data.user_scram.UserScram;
-import org.slf4j.LoggerFactory;
 
 import java.sql.*;
 import java.util.List;

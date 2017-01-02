@@ -12,12 +12,12 @@ import java.sql.Statement;
 public class AdminUserScramDbhImpl implements AdminUserScramDbh {
     @Override
     public AdminUserScram createNew(Connection dbc,
-                               AdminUserDbh adminUserDbh,
-                               ScramDbh scramDbh,
-                               boolean isSuperAdmin,
-                               String name,
-                               String username,
-                               ScramUtils.NewPasswordStringData data) throws SQLException {
+                                    AdminUserDbh adminUserDbh,
+                                    ScramDbh scramDbh,
+                                    boolean isSuperAdmin,
+                                    String name,
+                                    String username,
+                                    ScramUtils.NewPasswordStringData data) throws SQLException {
 
         try {
             String sqlLock = "LOCK TABLES admin_users WRITE, admin_user_scram WRITE";

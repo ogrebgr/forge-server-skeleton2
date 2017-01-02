@@ -29,13 +29,13 @@ public final class UserModule implements HttpModule {
     private final ScreenNameDbh mScreenNameDbh;
 
 
-    public UserModule(String pathPrefix, 
-                      DbPool dbPool, 
-                      UserScramDbh userScramDbh, 
-                      UserDbh userDbh, 
-                      ScramDbh scramDbh, 
+    public UserModule(String pathPrefix,
+                      DbPool dbPool,
+                      UserScramDbh userScramDbh,
+                      UserDbh userDbh,
+                      ScramDbh scramDbh,
                       ScreenNameDbh screenNameDbh) {
-        
+
         mPathPrefix = pathPrefix;
         mDbPool = dbPool;
         mUserScramDbh = userScramDbh;
@@ -46,11 +46,11 @@ public final class UserModule implements HttpModule {
 
 
     public UserModule(
-                      DbPool dbPool,
-                      UserScramDbh userScramDbh,
-                      UserDbh userDbh,
-                      ScramDbh scramDbh,
-                      ScreenNameDbh screenNameDbh) {
+            DbPool dbPool,
+            UserScramDbh userScramDbh,
+            UserDbh userDbh,
+            ScramDbh scramDbh,
+            ScreenNameDbh screenNameDbh) {
 
         mPathPrefix = DEFAULT_PATH_PREFIX;
         mDbPool = dbPool;

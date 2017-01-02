@@ -2,7 +2,9 @@ package com.bolyartech.forge.server.modules.admin;
 
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.module.HttpModule;
-import com.bolyartech.forge.server.modules.admin.data.*;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserDbh;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserScramDbh;
+import com.bolyartech.forge.server.modules.admin.data.UserExportedViewDbh;
 import com.bolyartech.forge.server.modules.admin.endpoints.*;
 import com.bolyartech.forge.server.modules.user.data.UserDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
@@ -51,13 +53,13 @@ public class AdminModule implements HttpModule {
 
 
     public AdminModule(
-                       DbPool dbPool,
-                       AdminUserDbh adminUserDbh,
-                       ScramDbh userScramDbh,
-                       ScramDbh adminScramDbh,
-                       UserDbh userDbh,
-                       AdminUserScramDbh adminUserScramDbh,
-                       UserExportedViewDbh userExportedViewDbh) {
+            DbPool dbPool,
+            AdminUserDbh adminUserDbh,
+            ScramDbh userScramDbh,
+            ScramDbh adminScramDbh,
+            UserDbh userDbh,
+            AdminUserScramDbh adminUserScramDbh,
+            UserExportedViewDbh userExportedViewDbh) {
 
         mPathPrefix = DEFAULT_PATH_PREFIX;
         mDbPool = dbPool;
@@ -68,6 +70,7 @@ public class AdminModule implements HttpModule {
         mAdminUserScramDbh = adminUserScramDbh;
         mUserExportedViewDbh = userExportedViewDbh;
     }
+
 
     @Override
     public List<Route> createRoutes() {

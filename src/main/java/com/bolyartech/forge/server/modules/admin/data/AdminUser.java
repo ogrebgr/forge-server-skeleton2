@@ -1,7 +1,5 @@
 package com.bolyartech.forge.server.modules.admin.data;
 
-import com.bolyartech.forge.server.modules.user.data.User;
-
 import java.util.Objects;
 
 
@@ -27,6 +25,15 @@ public final class AdminUser {
     }
 
 
+    public static boolean isValidPasswordLength(String password) {
+        if (password == null) {
+            throw new IllegalArgumentException("password is null");
+        }
+
+        return password.length() >= MIN_PASSWORD_LENGTH;
+    }
+
+
     public long getId() {
         return mId;
     }
@@ -46,6 +53,7 @@ public final class AdminUser {
         return mName;
     }
 
+
     @Override
     public boolean equals(Object obj) {
         if (obj != null && obj instanceof AdminUser) {
@@ -61,14 +69,5 @@ public final class AdminUser {
     @Override
     public int hashCode() {
         return Objects.hash(mId, mIsDisabled, mIsSuperAdmin, mName);
-    }
-
-
-    public static boolean isValidPasswordLength(String password) {
-        if (password == null) {
-            throw new IllegalArgumentException("password is null");
-        }
-
-        return password.length() >= MIN_PASSWORD_LENGTH;
     }
 }

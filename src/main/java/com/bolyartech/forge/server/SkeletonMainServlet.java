@@ -51,7 +51,7 @@ public class SkeletonMainServlet extends MainServlet {
                 new UserDbhImpl(),
                 new AdminUserScramDbhImpl(),
                 new UserExportedViewDbhImpl()
-                ));
+        ));
 
         return ret;
     }

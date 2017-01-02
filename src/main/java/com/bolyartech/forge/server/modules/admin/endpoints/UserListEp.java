@@ -34,7 +34,6 @@ public class UserListEp extends AdminDbEndpoint {
     }
 
 
-
     @Override
     public ForgeResponse handle(RequestContext ctx,
                                 Session session,

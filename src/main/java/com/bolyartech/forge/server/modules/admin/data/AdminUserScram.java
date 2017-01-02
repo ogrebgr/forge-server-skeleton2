@@ -1,6 +1,5 @@
 package com.bolyartech.forge.server.modules.admin.data;
 
-import com.bolyartech.forge.server.modules.user.data.User;
 import com.bolyartech.forge.server.modules.user.data.scram.Scram;
 
 

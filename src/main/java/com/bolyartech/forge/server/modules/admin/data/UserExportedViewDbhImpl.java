@@ -1,7 +1,6 @@
 package com.bolyartech.forge.server.modules.admin.data;
 
 import com.bolyartech.forge.server.db.DbUtils;
-import com.bolyartech.forge.server.modules.user.data.User;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -31,7 +30,7 @@ public class UserExportedViewDbhImpl implements UserExportedViewDbh {
             st.setLong(1, idGreaterThan);
             st.setLong(2, pageSize);
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 UserExportedView tmp = new UserExportedView(rs.getLong(1),
                         rs.getString(3),
                         rs.getString(4),
@@ -47,9 +46,9 @@ public class UserExportedViewDbhImpl implements UserExportedViewDbh {
     @Override
     public List<UserExportedView> findByPattern(Connection dbc, String pattern) throws SQLException {
         String sql = "SELECT users.id, " +
-                            "users.is_disabled, " +
-                            "user_scram.username, " +
-                            "user_screen_names.screen_name " +
+                "users.is_disabled, " +
+                "user_scram.username, " +
+                "user_screen_names.screen_name " +
                 "FROM user_scram, users LEFT OUTER JOIN user_screen_names " +
                 "ON users.id = user_screen_names.user " +
                 "WHERE (user_scram.username LIKE ? OR user_screen_names.screen_name LIKE ?) " +
@@ -63,7 +62,7 @@ public class UserExportedViewDbhImpl implements UserExportedViewDbh {
             st.setString(2, sqlPattern);
 
             ResultSet rs = st.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 UserExportedView tmp = new UserExportedView(rs.getLong(1),
                         rs.getString(3),
                         rs.getString(4),

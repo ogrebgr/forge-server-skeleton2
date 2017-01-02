@@ -5,7 +5,6 @@ import com.bolyartech.forge.server.modules.admin.AdminDbEndpoint;
 import com.bolyartech.forge.server.modules.admin.data.AdminUser;
 import com.bolyartech.forge.server.modules.admin.data.UserExportedView;
 import com.bolyartech.forge.server.modules.admin.data.UserExportedViewDbh;
-import com.bolyartech.forge.server.modules.user.data.User;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.BasicResponseCodes;
 import com.bolyartech.forge.server.response.forge.ForgeResponse;

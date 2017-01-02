@@ -3,7 +3,6 @@ package com.bolyartech.forge.server.modules.admin.endpoints;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.misc.Params;
 import com.bolyartech.forge.server.modules.admin.AdminDbEndpoint;
-import com.bolyartech.forge.server.modules.admin.data.AdminScramDbhImpl;
 import com.bolyartech.forge.server.modules.admin.data.AdminUser;
 import com.bolyartech.forge.server.modules.user.UserResponseCodes;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
