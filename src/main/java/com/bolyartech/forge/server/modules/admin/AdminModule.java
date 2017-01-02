@@ -16,10 +16,13 @@ import java.util.List;
 
 
 public class AdminModule implements ForgeModule {
+    private static final String DEFAULT_PATH_PREFIX = "/api/admin/";
+
     private static final String MODULE_SYSTEM_NAME = "admin";
     private static final int MODULE_VERSION_CODE = 1;
     private static final String MODULE_VERSION_NAME = "1.0.0";
 
+    private final String mPathPrefix;
     private final DbPool mDbPool;
     private final AdminUserDbh mAdminUserDbh;
     private final ScramDbh mUserScramDbh;
@@ -29,9 +32,16 @@ public class AdminModule implements ForgeModule {
     private final UserExportedViewDbh mUserExportedViewDbh;
 
 
-    public AdminModule(DbPool dbPool, AdminUserDbh adminUserDbh, ScramDbh userScramDbh,
-                       ScramDbh adminScramDbh, UserDbh userDbh, AdminUserScramDbh adminUserScramDbh,
+    public AdminModule(String pathPrefix,
+                       DbPool dbPool,
+                       AdminUserDbh adminUserDbh,
+                       ScramDbh userScramDbh,
+                       ScramDbh adminScramDbh,
+                       UserDbh userDbh,
+                       AdminUserScramDbh adminUserScramDbh,
                        UserExportedViewDbh userExportedViewDbh) {
+
+        mPathPrefix = pathPrefix;
         mDbPool = dbPool;
         mAdminUserDbh = adminUserDbh;
         mUserScramDbh = userScramDbh;
@@ -42,29 +52,48 @@ public class AdminModule implements ForgeModule {
     }
 
 
+    public AdminModule(
+                       DbPool dbPool,
+                       AdminUserDbh adminUserDbh,
+                       ScramDbh userScramDbh,
+                       ScramDbh adminScramDbh,
+                       UserDbh userDbh,
+                       AdminUserScramDbh adminUserScramDbh,
+                       UserExportedViewDbh userExportedViewDbh) {
+
+        mPathPrefix = DEFAULT_PATH_PREFIX;
+        mDbPool = dbPool;
+        mAdminUserDbh = adminUserDbh;
+        mUserScramDbh = userScramDbh;
+        mAdminScramDbh = adminScramDbh;
+        mUserDbh = userDbh;
+        mAdminUserScramDbh = adminUserScramDbh;
+        mUserExportedViewDbh = userExportedViewDbh;
+    }
+
     @Override
     public List<Route> createRoutes() {
         List<Route> ret = new ArrayList<>();
 
-        ret.add(new PostRoute("/api/admin/login",
+        ret.add(new PostRoute(mPathPrefix + "login",
                 new LoginEp(mDbPool, mAdminUserDbh, mUserScramDbh)));
-        ret.add(new PostRoute("/api/admin/logout",
+        ret.add(new PostRoute(mPathPrefix + "logout",
                 new LogoutEp()));
-        ret.add(new PostRoute("/api/admin/users",
+        ret.add(new PostRoute(mPathPrefix + "users",
                 new UserListEp(mDbPool, mUserExportedViewDbh)));
-        ret.add(new PostRoute("/api/admin/user_find",
+        ret.add(new PostRoute(mPathPrefix + "user_find",
                 new FindUserEp(mDbPool, mUserExportedViewDbh)));
-        ret.add(new PostRoute("/api/admin/user_disable",
+        ret.add(new PostRoute(mPathPrefix + "user_disable",
                 new DisableUserEp(mDbPool, mUserDbh)));
-        ret.add(new PostRoute("/api/admin/user_chpwd",
+        ret.add(new PostRoute(mPathPrefix + "user_chpwd",
                 new ChangePasswordEp(mDbPool, mUserScramDbh)));
-        ret.add(new PostRoute("/api/admin/admin_chpwd",
+        ret.add(new PostRoute(mPathPrefix + "admin_chpwd",
                 new ChangeAdminPasswordEp(mDbPool, mAdminScramDbh)));
-        ret.add(new PostRoute("/api/admin/chpwd_own",
+        ret.add(new PostRoute(mPathPrefix + "chpwd_own",
                 new ChangeAdminPasswordEp(mDbPool, mAdminScramDbh)));
-        ret.add(new PostRoute("/api/admin/admin_create",
+        ret.add(new PostRoute(mPathPrefix + "admin_create",
                 new CreateAdminUserEp(mDbPool, mAdminUserDbh, mAdminScramDbh, mAdminUserScramDbh)));
-        ret.add(new PostRoute("/api/admin/admin_disable",
+        ret.add(new PostRoute(mPathPrefix + "admin_disable",
                 new DisableAdminUserEp(mDbPool, mAdminUserDbh)));
 
         return ret;
