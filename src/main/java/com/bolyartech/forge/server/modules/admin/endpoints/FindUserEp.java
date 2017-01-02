@@ -39,7 +39,7 @@ public class FindUserEp extends AdminDbEndpoint {
     public ForgeResponse handle(RequestContext ctx, Session session, Connection dbc, AdminUser user)
             throws ResponseException, SQLException {
 
-        String pattern = ctx.getFromGet(PARAM_PATTERN);
+        String pattern = ctx.getFromPost(PARAM_PATTERN);
 
         if (!Strings.isNullOrEmpty(pattern)) {
             List<UserExportedView> rez = mUserExportedViewDbh.findByPattern(dbc, pattern);

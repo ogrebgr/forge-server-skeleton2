@@ -6,6 +6,7 @@ import com.bolyartech.forge.server.modules.admin.AdminDbEndpoint;
 import com.bolyartech.forge.server.modules.admin.data.*;
 import com.bolyartech.forge.server.modules.user.UserResponseCodes;
 import com.bolyartech.forge.server.modules.user.data.User;
+import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.response.ResponseException;
 import com.bolyartech.forge.server.response.forge.BasicResponseCodes;
@@ -30,11 +31,11 @@ public class CreateAdminUserEp extends AdminDbEndpoint {
 
 
     private final AdminUserDbh mAdminUserDbh;
-    private final AdminScramDbhImpl mAdminScramDbh;
+    private final ScramDbh mAdminScramDbh;
     private final AdminUserScramDbh mAdminUserScramDbh;
 
 
-    public CreateAdminUserEp(DbPool dbPool, AdminUserDbh adminUserDbh, AdminScramDbhImpl adminScramDbh,
+    public CreateAdminUserEp(DbPool dbPool, AdminUserDbh adminUserDbh, ScramDbh adminScramDbh,
                              AdminUserScramDbh adminUserScramDbh) {
         super(dbPool);
         mAdminUserDbh = adminUserDbh;

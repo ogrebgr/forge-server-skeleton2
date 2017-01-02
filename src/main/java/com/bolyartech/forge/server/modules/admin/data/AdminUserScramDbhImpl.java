@@ -13,7 +13,7 @@ public class AdminUserScramDbhImpl implements AdminUserScramDbh {
     @Override
     public AdminUserScram createNew(Connection dbc,
                                AdminUserDbh adminUserDbh,
-                               AdminScramDbhImpl scramDbh,
+                               ScramDbh scramDbh,
                                boolean isSuperAdmin,
                                String name,
                                String username,

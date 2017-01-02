@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public interface AdminUserScramDbh {
     public AdminUserScram createNew(Connection dbc,
                                     AdminUserDbh adminUserDbh,
-                                    AdminScramDbhImpl scramDbh,
+                                    ScramDbh scramDbh,
                                     boolean isSuperAdmin,
                                     String name,
                                     String username,

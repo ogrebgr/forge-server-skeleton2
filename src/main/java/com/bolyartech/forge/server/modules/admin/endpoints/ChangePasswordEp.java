@@ -6,6 +6,7 @@ import com.bolyartech.forge.server.modules.admin.AdminDbEndpoint;
 import com.bolyartech.forge.server.modules.admin.data.AdminScramDbhImpl;
 import com.bolyartech.forge.server.modules.admin.data.AdminUser;
 import com.bolyartech.forge.server.modules.user.UserResponseCodes;
+import com.bolyartech.forge.server.modules.user.data.scram.ScramDbh;
 import com.bolyartech.forge.server.modules.user.data.scram.ScramDbhImpl;
 import com.bolyartech.forge.server.modules.user.data.scram.UserScramUtils;
 import com.bolyartech.forge.server.response.ResponseException;
@@ -27,10 +28,10 @@ public class ChangePasswordEp extends AdminDbEndpoint {
     static final String PARAM_USER = "user";
     static final String PARAM_PASSWORD = "new_password";
 
-    private final ScramDbhImpl mScramDbh;
+    private final ScramDbh mScramDbh;
 
 
-    public ChangePasswordEp(DbPool dbPool, ScramDbhImpl scramDbh) {
+    public ChangePasswordEp(DbPool dbPool, ScramDbh scramDbh) {
         super(dbPool);
         mScramDbh = scramDbh;
     }

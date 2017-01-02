@@ -41,7 +41,7 @@ public class UserListEp extends AdminDbEndpoint {
                                 Connection dbc,
                                 AdminUser user) throws ResponseException, SQLException {
 
-        String idGreaterThanRaw = ctx.getFromGet("id");
+        String idGreaterThanRaw = ctx.getFromPost("id");
         if (Strings.isNullOrEmpty(idGreaterThanRaw)) {
             long id = 0;
             if (!Strings.isNullOrEmpty(idGreaterThanRaw)) {
