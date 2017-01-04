@@ -3,6 +3,7 @@ package com.bolyartech.forge.server.modules.admin;
 import com.bolyartech.forge.server.db.DbPool;
 import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.modules.admin.data.AdminUserDbh;
+import com.bolyartech.forge.server.modules.admin.data.AdminUserExportedViewDbh;
 import com.bolyartech.forge.server.modules.admin.data.AdminUserScramDbh;
 import com.bolyartech.forge.server.modules.admin.data.UserExportedViewDbh;
 import com.bolyartech.forge.server.modules.admin.endpoints.*;
@@ -30,6 +31,7 @@ public class AdminModule implements HttpModule {
     private final UserDbh mUserDbh;
     private final AdminUserScramDbh mAdminUserScramDbh;
     private final UserExportedViewDbh mUserExportedViewDbh;
+    private final AdminUserExportedViewDbh mAdminUserExportedViewDbh;
 
 
     public AdminModule(String pathPrefix,
@@ -39,7 +41,8 @@ public class AdminModule implements HttpModule {
                        ScramDbh adminScramDbh,
                        UserDbh userDbh,
                        AdminUserScramDbh adminUserScramDbh,
-                       UserExportedViewDbh userExportedViewDbh) {
+                       UserExportedViewDbh userExportedViewDbh,
+                       AdminUserExportedViewDbh adminUserExportedViewDbh) {
 
         mPathPrefix = pathPrefix;
         mDbPool = dbPool;
@@ -49,6 +52,8 @@ public class AdminModule implements HttpModule {
         mUserDbh = userDbh;
         mAdminUserScramDbh = adminUserScramDbh;
         mUserExportedViewDbh = userExportedViewDbh;
+        mAdminUserExportedViewDbh = adminUserExportedViewDbh;
+
     }
 
 
@@ -59,7 +64,8 @@ public class AdminModule implements HttpModule {
             ScramDbh adminScramDbh,
             UserDbh userDbh,
             AdminUserScramDbh adminUserScramDbh,
-            UserExportedViewDbh userExportedViewDbh) {
+            UserExportedViewDbh userExportedViewDbh,
+            AdminUserExportedViewDbh adminUserExportedViewDbh) {
 
         mPathPrefix = DEFAULT_PATH_PREFIX;
         mDbPool = dbPool;
@@ -69,6 +75,7 @@ public class AdminModule implements HttpModule {
         mUserDbh = userDbh;
         mAdminUserScramDbh = adminUserScramDbh;
         mUserExportedViewDbh = userExportedViewDbh;
+        mAdminUserExportedViewDbh = adminUserExportedViewDbh;
     }
 
 
@@ -77,7 +84,7 @@ public class AdminModule implements HttpModule {
         List<Route> ret = new ArrayList<>();
 
         ret.add(new PostRoute(mPathPrefix + "login",
-                new LoginEp(mDbPool, mAdminUserDbh, mUserScramDbh)));
+                new LoginEp(mDbPool, mAdminUserDbh, mAdminScramDbh)));
         ret.add(new PostRoute(mPathPrefix + "logout",
                 new LogoutEp()));
         ret.add(new PostRoute(mPathPrefix + "users",
@@ -88,13 +95,15 @@ public class AdminModule implements HttpModule {
                 new DisableUserEp(mDbPool, mUserDbh)));
         ret.add(new PostRoute(mPathPrefix + "user_chpwd",
                 new ChangePasswordEp(mDbPool, mUserScramDbh)));
-        ret.add(new PostRoute(mPathPrefix + "admin_chpwd",
+        ret.add(new PostRoute(mPathPrefix + "admin_users",
+                new AdminUserListEp(mDbPool, mAdminUserExportedViewDbh)));
+        ret.add(new PostRoute(mPathPrefix + "admin_user_chpwd",
                 new ChangeAdminPasswordEp(mDbPool, mAdminScramDbh)));
         ret.add(new PostRoute(mPathPrefix + "chpwd_own",
                 new ChangeAdminPasswordEp(mDbPool, mAdminScramDbh)));
-        ret.add(new PostRoute(mPathPrefix + "admin_create",
+        ret.add(new PostRoute(mPathPrefix + "admin_user_create",
                 new CreateAdminUserEp(mDbPool, mAdminUserDbh, mAdminScramDbh, mAdminUserScramDbh)));
-        ret.add(new PostRoute(mPathPrefix + "admin_disable",
+        ret.add(new PostRoute(mPathPrefix + "admin_user_disable",
                 new DisableAdminUserEp(mDbPool, mAdminUserDbh)));
 
         return ret;

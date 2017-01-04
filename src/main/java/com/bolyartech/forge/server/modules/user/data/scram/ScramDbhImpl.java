@@ -174,7 +174,7 @@ public class ScramDbhImpl implements ScramDbh {
                 "salt = ?," +
                 "server_key = ?," +
                 "stored_key = ?," +
-                "iterations = ?, " +
+                "iterations = ? " +
                 "WHERE user = ?";
 
         try (PreparedStatement psUpdate = dbc.prepareStatement(sql)) {

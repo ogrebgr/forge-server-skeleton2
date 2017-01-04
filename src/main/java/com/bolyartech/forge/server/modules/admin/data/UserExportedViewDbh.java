@@ -6,7 +6,7 @@ import java.util.List;
 
 
 public interface UserExportedViewDbh {
-    List<UserExportedView> list(Connection dbc, long idGraterThan, int limit) throws SQLException;
+    List<UserExportedView> list(Connection dbc, long idGreaterThan, int limit) throws SQLException;
 
     List<UserExportedView> findByPattern(Connection dbc, String pattern) throws SQLException;
 }

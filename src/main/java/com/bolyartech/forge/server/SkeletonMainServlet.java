@@ -4,10 +4,7 @@ import com.bolyartech.forge.server.config.ForgeConfigurationException;
 import com.bolyartech.forge.server.db.*;
 import com.bolyartech.forge.server.module.HttpModule;
 import com.bolyartech.forge.server.modules.admin.AdminModule;
-import com.bolyartech.forge.server.modules.admin.data.AdminScramDbhImpl;
-import com.bolyartech.forge.server.modules.admin.data.AdminUserDbhImpl;
-import com.bolyartech.forge.server.modules.admin.data.AdminUserScramDbhImpl;
-import com.bolyartech.forge.server.modules.admin.data.UserExportedViewDbhImpl;
+import com.bolyartech.forge.server.modules.admin.data.*;
 import com.bolyartech.forge.server.modules.main.MainModule;
 import com.bolyartech.forge.server.modules.user.UserModule;
 import com.bolyartech.forge.server.modules.user.data.UserDbhImpl;
@@ -50,7 +47,8 @@ public class SkeletonMainServlet extends MainServlet {
                 new AdminScramDbhImpl(),
                 new UserDbhImpl(),
                 new AdminUserScramDbhImpl(),
-                new UserExportedViewDbhImpl()
+                new UserExportedViewDbhImpl(),
+                new AdminUserExportedViewDbhImpl()
         ));
 
         return ret;
